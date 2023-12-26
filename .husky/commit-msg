@@ -3,6 +3,3 @@
 
 cd expenses-tracker-backend
 npx --no-install commitlint --edit
-
-cd ../expenses-tracker-fronted
-npx --no-install comitlint --edit

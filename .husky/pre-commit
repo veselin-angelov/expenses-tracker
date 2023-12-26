@@ -3,3 +3,6 @@
 
 cd expenses-tracker-backend
 npx lint-staged
+
+cd ../expenses-tracker-frontend
+npx lint-staged

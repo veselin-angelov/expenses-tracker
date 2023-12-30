@@ -1,0 +1,48 @@
+version: '3'
+services:
+  node:
+    container_name: expenses_tracker_node
+    build:
+      context: .
+      dockerfile: .dev/node/Dockerfile
+    volumes:
+      - ./.dev/scripts/start-api.sh:/usr/src/scripts/start-api.sh
+      - ./:/usr/src/app
+      - ./storage:/usr/src/storage:rw
+      - ./${DOCKER_ENV_FILE:-.env}:/usr/src/app/.env:rw
+    ports:
+      - "3000:3000"
+      - "9229:9229"
+    command: /usr/src/scripts/start-api.sh
+    env_file:
+      - ${DOCKER_ENV_FILE:-.env}
+  nginx:
+    container_name: expenses_tracker_nginx
+    image: nginx:latest
+    volumes:
+      - ./.dev/nginx/app.conf:/etc/nginx/sites-available/app.conf
+      - ./.dev/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./.dev/nginx/default.conf:/etc/nginx/conf.d/default.conf
+      - ./.dev/ssl/nginx-selfsigned.crt:/etc/ssl/certs/nginx-selfsigned.crt:rw
+      - ./.dev/ssl/nginx-selfsigned.key:/etc/ssl/private/nginx-selfsigned.key:rw
+    env_file:
+      - ${DOCKER_ENV_FILE:-.env}
+    ports:
+      - "80:80"
+      - "443:443"
+    depends_on:
+      - node
+  postgres:
+    container_name: expenses_tracker_postgres
+    image: postgres:16.1
+    environment:
+      POSTGRES_DB: ${DATABASE_NAME}
+      POSTGRES_USER: ${DATABASE_USER}
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
+    ports:
+      - ${DATABASE_PORT}:5432
+    volumes:
+      - expenses-tracker-postgres:/var/lib/postgresql/data
+
+volumes:
+    expenses-tracker-postgres:

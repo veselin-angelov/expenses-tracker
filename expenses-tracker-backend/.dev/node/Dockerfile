@@ -1,8 +1,4 @@
 FROM node:20.10
 
-ENV NODE_PORT=3000
-ENV API_RUNTIME_ENVIRONMENT=${RUNTIME_ENVIRONMENT}
-
-RUN echo "Targeted environment $ENVIRONMENT"
 RUN nodejs -v
 RUN yarn -v

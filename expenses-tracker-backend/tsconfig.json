@@ -17,9 +17,13 @@
     "strictBindCallApply": true,
     "forceConsistentCasingInFileNames": true,
     "noFallthroughCasesInSwitch": true,
+    "resolveJsonModule": true,
     "paths": {
       "@app/*": [
         "src/*"
+      ],
+      "@app/package-json": [
+        "package.json"
       ]
     }
   }

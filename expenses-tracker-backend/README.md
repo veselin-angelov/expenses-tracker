@@ -33,3 +33,11 @@ and after that run
 ````bash
 docker compose up
 ````
+
+## Running migrations
+
+To run the migrations, run
+
+````bash
+.dev/scripts/migrations.sh
+````

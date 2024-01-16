@@ -7,10 +7,12 @@ import { LoginHandler } from './commands/login.handler';
 import { GoogleLoginService } from './services/google-auth.service';
 import { JwtService } from './services/jwt.service';
 import { UserRepository } from '@app/users/repositories';
+import { LogoutHandler } from './commands/logout.handler';
+import { RefreshHandler } from './commands/refresh.handler';
 
 const controllers = [AuthController];
 
-const commandHandlers = [LoginHandler];
+const commandHandlers = [LoginHandler, LogoutHandler, RefreshHandler];
 
 const sharedProviders: Provider[] = [
   ...commandHandlers,

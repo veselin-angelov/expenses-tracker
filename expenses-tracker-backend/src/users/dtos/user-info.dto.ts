@@ -1,8 +1,8 @@
-import { IsNumber, IsEmail, IsString, IsUrl } from 'class-validator';
+import { IsEmail, IsString, IsUrl, IsUUID } from 'class-validator';
 
 export class UserInfoDto {
-  @IsNumber()
-  id: number;
+  @IsUUID()
+  id: string;
 
   @IsEmail()
   email: string;

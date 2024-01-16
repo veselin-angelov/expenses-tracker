@@ -1,8 +1,9 @@
 import { HttpService } from './http-service';
-import { userInfoStorage } from './user-info-service';
+import { tokenStorage } from './user-info-service';
 
 interface LoginResponseToken {
-  token: string;
+  accessToken: string;
+  refreshToken: string;
 }
 
 class AuthService {
@@ -12,12 +13,22 @@ class AuthService {
     const result = await this.http.post<LoginResponseToken>('/auth/login', {
       body: { token: googleToken },
     });
-    userInfoStorage.setToken(result.token);
+    tokenStorage.setAccessToken(result.accessToken);
+    tokenStorage.setRefreshToken(result.refreshToken);
   }
 
-  logout() {
-    userInfoStorage.removeToken();
+  async logout(userId: string) {
+    await this.http.post<{ message: string }>('/auth/logout', {
+      body: {
+        id: userId,
+      },
+    });
+
+    tokenStorage.removeAccessToken();
+    tokenStorage.removeRefreshToken();
   }
+
+  // should have a refresh call
 }
 
 export const authService = new AuthService();

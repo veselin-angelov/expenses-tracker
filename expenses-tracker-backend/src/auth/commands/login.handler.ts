@@ -1,4 +1,3 @@
-// auth/handlers/login.handler.ts
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { JwtService } from '../services/jwt.service';
 import { LoginCommand } from '../commands/login.command';
@@ -6,6 +5,7 @@ import { User } from '@app/users/entities';
 import { UserRepository } from '@app/users/repositories';
 import { EntityManager } from '@mikro-orm/postgresql';
 import { GoogleLoginService } from '../services/google-auth.service';
+import * as argon from 'argon2';
 
 @CommandHandler(LoginCommand)
 export class LoginHandler implements ICommandHandler<LoginCommand> {
@@ -25,16 +25,18 @@ export class LoginHandler implements ICommandHandler<LoginCommand> {
 
     if (!user) {
       user = new User(email);
-      await this.em.persistAndFlush(user);
     }
 
-    const jwtToken = this.jwtService.create({
-      id: Number(user.id),
+    const tokens = this.jwtService.create({
+      id: user.id,
       email,
       picture,
       name,
     });
 
-    return { token: jwtToken };
+    user.refreshToken = await argon.hash(tokens.refreshToken);
+    await this.em.persistAndFlush(user);
+
+    return tokens;
   }
 }

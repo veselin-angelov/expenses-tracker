@@ -5,20 +5,20 @@ import {
   useEffect,
   useState,
 } from 'react';
-import { UserInfo, userInfoStorage } from '../services/user-info-service';
+import { UserInfo, tokenStorage } from '../services/user-info-service';
 
 const UserContext = createContext<UserInfo | undefined>(undefined);
 
 export function UserProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<UserInfo | undefined>(
-    userInfoStorage.userInfo,
+    tokenStorage.userInfo,
   );
 
   useEffect(() => {
-    userInfoStorage.setHandler(setUser);
+    tokenStorage.setHandler(setUser);
 
     return () => {
-      userInfoStorage.setHandler(undefined);
+      tokenStorage.setHandler(undefined);
     };
   }, []);
 

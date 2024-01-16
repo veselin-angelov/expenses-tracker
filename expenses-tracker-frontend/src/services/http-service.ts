@@ -1,5 +1,5 @@
 import { config } from '../config';
-import { userInfoStorage } from './user-info-service';
+import { tokenStorage } from './user-info-service';
 
 export interface RequestOptions {
   query?: { [key: string]: string };
@@ -36,7 +36,7 @@ export class HttpService {
     path: string,
     { body, query }: RequestOptions,
   ) {
-    const authToken = userInfoStorage.token;
+    const authToken = tokenStorage.accessToken;
     const queryString = new URLSearchParams(query).toString();
     const response = await fetch(
       `${config.serverBaseUrl.replace(/\/$/, '')}/${path.replace(
@@ -56,6 +56,7 @@ export class HttpService {
 
     if (!response.ok) {
       // TODO: Error handling, possibly shared errors between cliend & server
+      // TODO: if unauthorised error, try calling refresh
       throw new Error('Internal server error');
     }
 

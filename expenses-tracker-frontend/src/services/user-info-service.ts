@@ -2,6 +2,7 @@ import { jwtDecode } from 'jwt-decode';
 import { LocalStorage } from '../lib/local-storage';
 
 export interface UserInfo {
+  id: string;
   email: string;
   name: string;
   picture: string;
@@ -9,30 +10,45 @@ export interface UserInfo {
 
 export type AuthHandler = (user: UserInfo | undefined) => void;
 
-class UserInfoStorage {
+class TokenStorage {
   private handler: AuthHandler | undefined = undefined;
-  private storage = new LocalStorage('token');
+  private accessTokenStorage = new LocalStorage('accessToken');
+  private refreshTokenStorage = new LocalStorage('refreshToken');
 
   setHandler(handler: AuthHandler | undefined) {
     this.handler = handler;
   }
 
-  get token() {
-    return this.storage.get();
+  get accessToken() {
+    return this.accessTokenStorage.get();
   }
 
-  setToken(token: string) {
-    this.storage.set(token);
+  setAccessToken(accessToken: string) {
+    this.accessTokenStorage.set(accessToken);
     this.handler?.(this.userInfo);
   }
 
-  removeToken() {
-    this.storage.clear();
+  removeAccessToken() {
+    this.accessTokenStorage.clear();
     this.handler?.(undefined);
   }
 
+  get refreshToken() {
+    return this.refreshTokenStorage.get();
+  }
+
+  setRefreshToken(refreshToken: string) {
+    this.refreshTokenStorage.set(refreshToken);
+  }
+
+  removeRefreshToken() {
+    this.refreshTokenStorage.clear();
+  }
+
   get userInfo() {
-    return this.token ? this.userInfoFromToken(this.token) : undefined;
+    return this.accessToken
+      ? this.userInfoFromToken(this.accessToken)
+      : undefined;
   }
 
   private userInfoFromToken(token: string): UserInfo {
@@ -40,4 +56,4 @@ class UserInfoStorage {
   }
 }
 
-export const userInfoStorage = new UserInfoStorage();
+export const tokenStorage = new TokenStorage();

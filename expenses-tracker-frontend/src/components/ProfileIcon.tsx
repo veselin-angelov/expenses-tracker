@@ -2,6 +2,7 @@ import { Avatar, Menu, MenuItem } from '@mui/material';
 import { UserInfo } from '../services/user-info-service';
 import { useCallback, useRef, useState } from 'react';
 import { authService } from '../services/auth-service';
+import { useAsyncAction } from '../hooks/useAsyncAction';
 
 interface ProfileIconProps {
   user: UserInfo;
@@ -11,6 +12,10 @@ export function ProfileIcon({ user }: ProfileIconProps) {
   const [isOpened, setIsOpened] = useState(false);
   const avatarRef = useRef(null);
 
+  const { trigger: logout } = useAsyncAction(async () => {
+    await authService.logout(user.id);
+  });
+
   const handleClick = useCallback(() => {
     setIsOpened(true);
   }, [setIsOpened]);
@@ -18,6 +23,7 @@ export function ProfileIcon({ user }: ProfileIconProps) {
   const handleClose = useCallback(() => {
     setIsOpened(false);
   }, [setIsOpened]);
+
   return (
     <>
       <Avatar
@@ -40,9 +46,12 @@ export function ProfileIcon({ user }: ProfileIconProps) {
           horizontal: 'right',
         }}
       >
-        {/* TODO: What should we have here */}
-        <MenuItem onClick={handleClose}>Profile</MenuItem>
-        <MenuItem onClick={authService.logout}>Logout</MenuItem>
+        <MenuItem key={'option1'} onClick={handleClose}>
+          Profile
+        </MenuItem>
+        <MenuItem key={'option2'} onClick={logout}>
+          Logout
+        </MenuItem>
       </Menu>
     </>
   );

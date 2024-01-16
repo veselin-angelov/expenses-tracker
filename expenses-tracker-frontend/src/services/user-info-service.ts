@@ -1,36 +1,46 @@
 import { LocalStorage } from '../lib/local-storage';
 
-// TODO: Decide what user info we want to keep
-export interface UserInfo {
-  username: string;
+interface UserInfo {
+  email: string;
 }
 
 export type AuthHandler = (user: UserInfo | undefined) => void;
 
 class UserInfoStorage {
   private handler: AuthHandler | undefined = undefined;
-
-  // TODO: After adding auth logic, change it so the
-  // storage keeps the token instead
-  private storage = new LocalStorage('user');
+  private storage = new LocalStorage('token');
 
   setHandler(handler: AuthHandler | undefined) {
     this.handler = handler;
   }
-
-  get user() {
+  
+  get token() {
     return this.storage.get();
   }
 
-  setUser(userInfo: UserInfo) {
-    this.storage.set(userInfo);
-    this.handler?.(userInfo);
+  setUser(token: string) {
+    this.storage.set(token);
+    this.handler?.(this.userInfo);
   }
 
-  removeUser() {
+  setToken(token: string) {
+    this.storage.set(token);
+    this.handler?.(this.userInfo);
+  }
+
+  removeToken() {
     this.storage.clear();
     this.handler?.(undefined);
   }
+
+  get userInfo() {
+    // return this.token ? this.userInfoFromToken(this.token) : undefined;
+    return this.token;
+  }
+
+  // private userInfoFromToken(token: string) {
+  //   return jwtDecode(token);
+  // }
 }
 
 export const userInfoStorage = new UserInfoStorage();

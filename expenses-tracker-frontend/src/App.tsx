@@ -5,7 +5,6 @@ import { GoogleOAuthProvider } from '@react-oauth/google';
 import { config } from './config';
 
 export function App() {
-  console.log('BLABLABLA', config.googleClientId);
   return (
     <GoogleOAuthProvider clientId={config.googleClientId}>
       <UserProvider>

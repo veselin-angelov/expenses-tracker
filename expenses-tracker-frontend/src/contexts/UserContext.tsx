@@ -10,7 +10,9 @@ import { UserInfo, userInfoStorage } from '../services/user-info-service';
 const UserContext = createContext<UserInfo | undefined>(undefined);
 
 export function UserProvider({ children }: { children: ReactNode }) {
-  const [user, setUser] = useState<UserInfo | undefined>(userInfoStorage.user);
+  const [user, setUser] = useState<UserInfo | undefined>(
+    userInfoStorage.userInfo,
+  );
 
   useEffect(() => {
     userInfoStorage.setHandler(setUser);

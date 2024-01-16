@@ -1,4 +1,3 @@
-// src/dtos/user-info.dto.ts
 import { IsNumber, IsEmail, IsString, IsUrl } from 'class-validator';
 
 export class UserInfoDto {

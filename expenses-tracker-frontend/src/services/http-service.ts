@@ -3,7 +3,8 @@ import { userInfoStorage } from './user-info-service';
 
 export interface RequestOptions {
   query?: { [key: string]: string };
-  body?: { [key: string]: undefined };
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  body?: { [key: string]: any };
 }
 
 export class HttpService {

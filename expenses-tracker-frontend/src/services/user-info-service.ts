@@ -1,7 +1,10 @@
+import { jwtDecode } from 'jwt-decode';
 import { LocalStorage } from '../lib/local-storage';
 
-interface UserInfo {
+export interface UserInfo {
   email: string;
+  name: string;
+  picture: string;
 }
 
 export type AuthHandler = (user: UserInfo | undefined) => void;
@@ -13,14 +16,9 @@ class UserInfoStorage {
   setHandler(handler: AuthHandler | undefined) {
     this.handler = handler;
   }
-  
+
   get token() {
     return this.storage.get();
-  }
-
-  setUser(token: string) {
-    this.storage.set(token);
-    this.handler?.(this.userInfo);
   }
 
   setToken(token: string) {
@@ -34,13 +32,12 @@ class UserInfoStorage {
   }
 
   get userInfo() {
-    // return this.token ? this.userInfoFromToken(this.token) : undefined;
-    return this.token;
+    return this.token ? this.userInfoFromToken(this.token) : undefined;
   }
 
-  // private userInfoFromToken(token: string) {
-  //   return jwtDecode(token);
-  // }
+  private userInfoFromToken(token: string): UserInfo {
+    return jwtDecode(token);
+  }
 }
 
 export const userInfoStorage = new UserInfoStorage();

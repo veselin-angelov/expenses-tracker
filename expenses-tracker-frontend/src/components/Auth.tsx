@@ -1,7 +1,7 @@
 import { useCurrentUser } from '../contexts/UserContext';
-import { ProfileIcon } from './ProfileIcon';
-import { userInfoStorage } from '../services/user-info-service';
 import { GoogleLogin } from '@react-oauth/google';
+import { authService } from '../services/auth-service';
+import { ProfileIcon } from './ProfileIcon';
 
 export function Auth() {
   const user = useCurrentUser();
@@ -13,10 +13,7 @@ export function Auth() {
   return (
     <GoogleLogin
       onSuccess={(credentialResponse) => {
-        // TODO: set the token to the backend for handling
-        userInfoStorage.setUser({
-          username: credentialResponse.credential ?? '',
-        });
+        authService.login(credentialResponse.credential ?? '');
       }}
       onError={() => {
         // eslint-disable-next-line no-console

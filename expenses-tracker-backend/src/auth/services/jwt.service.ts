@@ -1,4 +1,3 @@
-// auth/services/jwt.service.ts
 import { UserInfoDto } from '@app/users/dtos/user-info.dto';
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';

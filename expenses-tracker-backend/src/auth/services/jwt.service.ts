@@ -12,10 +12,7 @@ export class JwtService {
   constructor(private readonly configService: ConfigService) {}
 
   create(data: UserInfoDto): Tokens {
-    // TODO: Figure out how to setup the configs properly
-    // const { privateKey, expiryTime } = this.configService.get('jwt');
-    const privateKey = this.configService.get('JWT_SECRET');
-    const expiryTime = this.configService.get<string>('JWT_EXPIRY_TIME');
+    const { privateKey, expiryTime } = this.configService.get('jwt');
     const refreshExpiryTime = this.configService.get<string>(
       'JWT_REFRESH_EXPIRY_TIME',
     );

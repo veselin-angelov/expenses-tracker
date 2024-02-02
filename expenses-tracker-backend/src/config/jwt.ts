@@ -1,4 +1,4 @@
-export const JWT_CONFIG_KEY = 'logger';
+export const JWT_CONFIG_KEY = 'jwt';
 export type JwtConfig = {
   expiryTime: number;
   secretKey: string;

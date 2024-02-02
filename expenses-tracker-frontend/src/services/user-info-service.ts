@@ -1,36 +1,59 @@
+import { jwtDecode } from 'jwt-decode';
 import { LocalStorage } from '../lib/local-storage';
 
-// TODO: Decide what user info we want to keep
 export interface UserInfo {
-  username: string;
+  id: string;
+  email: string;
+  name: string;
+  picture: string;
 }
 
 export type AuthHandler = (user: UserInfo | undefined) => void;
 
-class UserInfoStorage {
+class TokenStorage {
   private handler: AuthHandler | undefined = undefined;
-
-  // TODO: After adding auth logic, change it so the
-  // storage keeps the token instead
-  private storage = new LocalStorage('user');
+  private accessTokenStorage = new LocalStorage('accessToken');
+  private refreshTokenStorage = new LocalStorage('refreshToken');
 
   setHandler(handler: AuthHandler | undefined) {
     this.handler = handler;
   }
 
-  get user() {
-    return this.storage.get();
+  get accessToken() {
+    return this.accessTokenStorage.get();
   }
 
-  setUser(userInfo: UserInfo) {
-    this.storage.set(userInfo);
-    this.handler?.(userInfo);
+  setAccessToken(accessToken: string) {
+    this.accessTokenStorage.set(accessToken);
+    this.handler?.(this.userInfo);
   }
 
-  removeUser() {
-    this.storage.clear();
+  removeAccessToken() {
+    this.accessTokenStorage.clear();
     this.handler?.(undefined);
+  }
+
+  get refreshToken() {
+    return this.refreshTokenStorage.get();
+  }
+
+  setRefreshToken(refreshToken: string) {
+    this.refreshTokenStorage.set(refreshToken);
+  }
+
+  removeRefreshToken() {
+    this.refreshTokenStorage.clear();
+  }
+
+  get userInfo() {
+    return this.accessToken
+      ? this.userInfoFromToken(this.accessToken)
+      : undefined;
+  }
+
+  private userInfoFromToken(token: string): UserInfo {
+    return jwtDecode(token);
   }
 }
 
-export const userInfoStorage = new UserInfoStorage();
+export const tokenStorage = new TokenStorage();

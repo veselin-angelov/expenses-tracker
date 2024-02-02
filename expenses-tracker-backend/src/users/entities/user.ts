@@ -19,9 +19,9 @@ export class User {
   })
   @Unique()
   @Property({
-    nullable: false,
+    nullable: true,
   })
-  public username: string;
+  public username?: string;
 
   @ApiProperty({
     nullable: false,
@@ -29,9 +29,11 @@ export class User {
   @Property()
   public email: string;
 
-  // @Exclude()
+  @ApiProperty({
+    nullable: true,
+  })
   @Property()
-  public password!: string;
+  public refreshToken?: string;
 
   @ApiProperty({
     nullable: false,
@@ -77,4 +79,8 @@ export class User {
     nullable: true,
   })
   public lastName?: string;
+
+  constructor(email: string) {
+    this.email = email;
+  }
 }

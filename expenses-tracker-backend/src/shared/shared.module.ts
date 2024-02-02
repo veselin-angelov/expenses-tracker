@@ -1,6 +1,6 @@
 import { Global, Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
-import { app, database, logger } from '@app/config';
+import { app, database, jwt, logger } from '@app/config';
 import { DatabaseModule } from '@app/shared/database/database.module';
 import { LoggerModule } from '@app/shared/logger/logger.module';
 
@@ -9,7 +9,7 @@ import { LoggerModule } from '@app/shared/logger/logger.module';
   providers: [],
   imports: [
     ConfigModule.forRoot({
-      load: [database, app, logger],
+      load: [database, app, logger, jwt],
       envFilePath: `.env`,
     }),
     DatabaseModule,

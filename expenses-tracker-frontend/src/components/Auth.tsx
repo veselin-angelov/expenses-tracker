@@ -19,7 +19,8 @@ export function Auth() {
         // eslint-disable-next-line no-console
         console.log('Login Failed');
       }}
-      useOneTap
+      // Buggy!
+      // useOneTap
     />
   );
 }

@@ -1,12 +1,14 @@
 export const JWT_CONFIG_KEY = 'jwt';
 export type JwtConfig = {
-  expiryTime: number;
   secretKey: string;
+  expiryTime: string;
+  refreshTokenExpiryTime: string;
 };
 
-export const jwt = (): { [JWT_CONFIG_KEY]: JwtConfig } => ({
+export const jwt = (): { [JWT_CONFIG_KEY]: Partial<JwtConfig> } => ({
   [JWT_CONFIG_KEY]: {
-    expiryTime: Number(process.env.JWT_EXPIRY_TIME),
     secretKey: process.env.JWT_SECRET as string,
+    expiryTime: process.env.JWT_EXPIRY_TIME as string,
+    refreshTokenExpiryTime: process.env.JWT_REFRESH_EXPIRY_TIME as string,
   },
 });

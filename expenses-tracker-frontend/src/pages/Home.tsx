@@ -1,5 +1,3 @@
-import { Auth } from '../components/Auth';
-
 export function Home() {
-  return <Auth />;
+  return <h1>Hello world</h1>;
 }

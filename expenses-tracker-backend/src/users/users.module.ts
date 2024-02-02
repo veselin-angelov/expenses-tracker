@@ -20,6 +20,6 @@ const sharedProviders: Provider[] = [...queryHandlers];
   ],
   controllers: controllers,
   providers: sharedProviders,
-  exports: sharedProviders,
+  exports: [...sharedProviders, MikroOrmModule],
 })
 export class UsersModule {}

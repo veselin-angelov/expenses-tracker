@@ -5,7 +5,9 @@ import { LOGGER } from '@app/shared/logger/constants';
 import { AppHttpExceptionFilter } from '@app/app-http-exception.filter';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(AppModule, {
+    bufferLogs: true,
+  });
   const logger = app.get(LOGGER);
   app.useLogger(logger);
   const { httpAdapter } = app.get(HttpAdapterHost);

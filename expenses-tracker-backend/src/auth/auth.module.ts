@@ -7,6 +7,8 @@ import { JwtService } from './services/jwt.service';
 import { LogoutHandler } from './commands/logout.handler';
 import { RefreshHandler } from './commands/refresh.handler';
 import { UsersModule } from '@app/users/users.module';
+import { AuthTokenStrategy } from './strategies/auth-token.strategy';
+import { RefreshTokenStrategy } from './strategies/refresh-token.strategy';
 
 const controllers = [AuthController];
 
@@ -16,6 +18,8 @@ const sharedProviders: Provider[] = [
   ...commandHandlers,
   GoogleLoginService,
   JwtService,
+  AuthTokenStrategy,
+  RefreshTokenStrategy,
 ];
 
 @Module({

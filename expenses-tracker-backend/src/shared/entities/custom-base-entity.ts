@@ -30,20 +30,4 @@ export abstract class CustomBaseEntity extends BaseEntity {
     nullable: true,
   })
   public updatedAt?: Date | null = null;
-
-  // @ApiProperty({
-  //   type: () => User,
-  //   nullable: true,
-  // })
-  // // @ReferenceToEntity()
-  // @ManyToOne(() => User, {
-  //   ref: true,
-  //   strategy: LoadStrategy.JOINED,
-  //   eager: false,
-  //   cascade: [],
-  //   nullable: true,
-  //   index: true,
-  //   deleteRule: 'set null',
-  // })
-  // public createdBy?: Ref<User> | null;
 }

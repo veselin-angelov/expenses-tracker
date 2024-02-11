@@ -10,23 +10,25 @@ export class GoogleLoginService {
   ) {}
 
   async decodeToken(token: string) {
+    let ticket;
+
     try {
-      const ticket = await this.client.verifyIdToken({
+      ticket = await this.client.verifyIdToken({
         idToken: token,
         audience: this.configService.get<string>('GOOGLE_API_CLIENT_ID'),
       });
-
-      const payload = ticket.getPayload();
-
-      if (!payload) {
-        throw new BadRequestException('No token payload provided');
-      }
-
-      const userInfo = this.extractUserInfoFromPayload(payload);
-      return userInfo;
     } catch (error) {
       throw new BadRequestException('Invalid Google token');
     }
+
+    const payload = ticket.getPayload();
+
+    if (!payload) {
+      throw new BadRequestException('No token payload provided');
+    }
+
+    const userInfo = this.extractUserInfoFromPayload(payload);
+    return userInfo;
   }
 
   private extractUserInfoFromPayload(payload: TokenPayload) {

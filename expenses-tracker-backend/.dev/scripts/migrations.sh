@@ -1,5 +1,10 @@
 #!/bin/bash
 
+if [ ! -f ../../.env ]
+then
+  export $(echo $(cat .env | sed 's/#.*//g'| xargs) | envsubst)
+fi
+
 export DATABASE_MIGRATIONS_PATH=./src/migrations
 export DATABASE_ENTITIES_PATH="./(src|libs)/**/entities/*.ts"
 export DATABASE_SEEDERS_PATH="./tests/database/**/"

@@ -1,4 +1,10 @@
-import { ArgumentsHost, HttpServer, Inject, Logger } from '@nestjs/common';
+import {
+  ArgumentsHost,
+  Catch,
+  HttpServer,
+  Inject,
+  Logger,
+} from '@nestjs/common';
 import { BaseExceptionFilter } from '@nestjs/core';
 import { Request } from 'express';
 import { omit } from 'lodash';
@@ -22,6 +28,7 @@ const sanitizePasswords = (
   }, object);
 };
 
+@Catch()
 export class AppHttpExceptionFilter extends BaseExceptionFilter {
   public constructor(
     @Inject(LOGGER) private readonly logger: Logger,
@@ -32,10 +39,7 @@ export class AppHttpExceptionFilter extends BaseExceptionFilter {
 
   public catch(exception: Error, host: ArgumentsHost) {
     const request = host.switchToHttp().getRequest<Request>();
-
-    const user: Partial<User> | null =
-      'user' in request ? (request.user as User) : null;
-
+    const user: Partial<User> | null = request.user ?? null;
     const context = JSON.stringify({
       user: user
         ? omit(instanceToPlain(user, { enableCircularCheck: true }), [

@@ -1,7 +1,11 @@
-import { ReflectMetadataProvider } from '@mikro-orm/core';
-import { MikroOrmModuleOptions } from '@mikro-orm/nestjs';
+import * as process from 'process';
+import {
+  PostgreSqlDriver,
+  ReflectMetadataProvider,
+} from '@mikro-orm/postgresql';
 import { Environments } from '@app/shared/enums';
-import { PostgreSqlDriver } from '@mikro-orm/postgresql';
+import { MikroOrmModuleOptions } from '@mikro-orm/nestjs';
+import { Migrator } from '@mikro-orm/migrations';
 
 export const options: MikroOrmModuleOptions = {
   entities: [process.env.DATABASE_ENTITIES_PATH as string],
@@ -15,8 +19,8 @@ export const options: MikroOrmModuleOptions = {
   metadataProvider: ReflectMetadataProvider,
   multipleStatements: true,
   allowGlobalContext: true,
-  // driver: PgsqlCustomDriver,
   driver: PostgreSqlDriver,
+  extensions: [Migrator],
   migrations: {
     tableName: 'migrations',
     path: process.env.DATABASE_MIGRATIONS_PATH,

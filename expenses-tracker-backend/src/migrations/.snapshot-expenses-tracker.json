@@ -8,15 +8,25 @@
       "columns": {
         "id": {
           "name": "id",
-          "type": "uuid",
+          "type": "varchar(255)",
           "unsigned": false,
           "autoincrement": false,
           "primary": false,
           "nullable": false,
-          "mappedType": "uuid"
+          "mappedType": "string"
         },
-        "username": {
-          "name": "username",
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamptz",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "length": 6,
+          "mappedType": "datetime"
+        },
+        "updated_at": {
+          "name": "updated_at",
           "type": "varchar(255)",
           "unsigned": false,
           "autoincrement": false,
@@ -39,25 +49,6 @@
           "unsigned": false,
           "autoincrement": false,
           "primary": false,
-          "nullable": false,
-          "mappedType": "string"
-        },
-        "created": {
-          "name": "created",
-          "type": "timestamptz(0)",
-          "unsigned": false,
-          "autoincrement": false,
-          "primary": false,
-          "nullable": false,
-          "length": 0,
-          "mappedType": "datetime"
-        },
-        "updated": {
-          "name": "updated",
-          "type": "varchar(255)",
-          "unsigned": false,
-          "autoincrement": false,
-          "primary": false,
           "nullable": true,
           "mappedType": "string"
         },
@@ -70,24 +61,6 @@
           "nullable": false,
           "default": "true",
           "mappedType": "boolean"
-        },
-        "first_name": {
-          "name": "first_name",
-          "type": "varchar(255)",
-          "unsigned": false,
-          "autoincrement": false,
-          "primary": false,
-          "nullable": true,
-          "mappedType": "string"
-        },
-        "last_name": {
-          "name": "last_name",
-          "type": "varchar(255)",
-          "unsigned": false,
-          "autoincrement": false,
-          "primary": false,
-          "nullable": true,
-          "mappedType": "string"
         }
       },
       "name": "user",
@@ -95,21 +68,33 @@
       "indexes": [
         {
           "columnNames": [
-            "username"
+            "created_at"
           ],
           "composite": false,
-          "keyName": "user_username_unique",
+          "keyName": "user_created_at_index",
+          "constraint": false,
           "primary": false,
-          "unique": true
+          "unique": false
         },
         {
           "columnNames": [
-            "created"
+            "email"
           ],
           "composite": false,
-          "keyName": "user_created_index",
+          "keyName": "user_email_index",
+          "constraint": false,
           "primary": false,
           "unique": false
+        },
+        {
+          "columnNames": [
+            "email"
+          ],
+          "composite": false,
+          "keyName": "user_email_unique",
+          "constraint": true,
+          "primary": false,
+          "unique": true
         },
         {
           "keyName": "user_pkey",
@@ -117,12 +102,15 @@
             "id"
           ],
           "composite": false,
+          "constraint": true,
           "primary": true,
           "unique": true
         }
       ],
       "checks": [],
-      "foreignKeys": {}
+      "foreignKeys": {},
+      "nativeEnums": {}
     }
-  ]
+  ],
+  "nativeEnums": {}
 }

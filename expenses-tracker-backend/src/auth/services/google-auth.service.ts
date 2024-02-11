@@ -4,13 +4,10 @@ import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class GoogleLoginService {
-  private readonly client: OAuth2Client;
-
-  constructor(private readonly configService: ConfigService) {
-    this.client = new OAuth2Client(
-      configService.get<string>('GOOGLE_API_CLIENT_ID'),
-    );
-  }
+  constructor(
+    private readonly configService: ConfigService,
+    private readonly client: OAuth2Client,
+  ) {}
 
   async decodeToken(token: string) {
     try {

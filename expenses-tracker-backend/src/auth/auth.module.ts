@@ -1,14 +1,16 @@
 import { Module, Provider } from '@nestjs/common';
 import { CqrsModule } from '@nestjs/cqrs';
-import { AuthController } from './http';
-import { LoginHandler } from './commands/login.handler';
-import { GoogleLoginService } from './services/google-auth.service';
-import { JwtService } from './services/jwt.service';
-import { LogoutHandler } from './commands/logout.handler';
-import { RefreshHandler } from './commands/refresh.handler';
+import { AuthController } from '@app/auth/http';
+import { JwtService, GoogleLoginService } from '@app/auth/services';
 import { UsersModule } from '@app/users/users.module';
-import { AuthTokenStrategy } from './strategies/auth-token.strategy';
-import { RefreshTokenStrategy } from './strategies/refresh-token.strategy';
+import { OAuth2Client } from 'google-auth-library';
+import { ConfigService } from '@nestjs/config';
+import { AuthTokenStrategy, RefreshTokenStrategy } from '@app/auth/strategies';
+import {
+  LoginHandler,
+  LogoutHandler,
+  RefreshHandler,
+} from '@app/auth/commands';
 
 const controllers = [AuthController];
 
@@ -16,6 +18,13 @@ const commandHandlers = [LoginHandler, LogoutHandler, RefreshHandler];
 
 const sharedProviders: Provider[] = [
   ...commandHandlers,
+
+  {
+    inject: [ConfigService],
+    provide: OAuth2Client,
+    useFactory: (configService: ConfigService) =>
+      new OAuth2Client(configService.get<string>('GOOGLE_API_CLIENT_ID')),
+  },
   GoogleLoginService,
   JwtService,
   AuthTokenStrategy,

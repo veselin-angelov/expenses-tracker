@@ -28,7 +28,16 @@ class AuthService {
     tokenStorage.removeRefreshToken();
   }
 
-  // should have a refresh call
+  async refresh() {
+    const refreshToken = tokenStorage.refreshToken;
+    tokenStorage.removeAccessToken();
+    const response = await this.http.post<LoginResponseToken>('/auth/refresh', {
+      headers: refreshToken ? { Authorization: `Bearer ${refreshToken}` } : {},
+    });
+
+    tokenStorage.setAccessToken(response.accessToken);
+    tokenStorage.setRefreshToken(response.refreshToken);
+  }
 }
 
 export const authService = new AuthService();

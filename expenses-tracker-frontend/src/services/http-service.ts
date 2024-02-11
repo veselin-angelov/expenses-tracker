@@ -1,7 +1,9 @@
 import { config } from '../config';
+import { authService } from './auth-service';
 import { tokenStorage } from './user-info-service';
 
 export interface RequestOptions {
+  headers?: { [key: string]: string };
   query?: { [key: string]: string };
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   body?: { [key: string]: any };
@@ -34,7 +36,7 @@ export class HttpService {
   private async request(
     method: string,
     path: string,
-    { body, query }: RequestOptions,
+    { headers, body, query }: RequestOptions,
   ) {
     const authToken = tokenStorage.accessToken;
     const queryString = new URLSearchParams(query).toString();
@@ -45,7 +47,7 @@ export class HttpService {
       )}?${queryString}`,
       {
         method,
-        headers: {
+        headers: headers ?? {
           // eslint-disable-next-line @typescript-eslint/naming-convention
           ...(body ? { 'Content-Type': 'application/json' } : {}),
           ...(authToken ? { Authorization: `Bearer ${authToken}` } : {}),
@@ -56,7 +58,9 @@ export class HttpService {
 
     if (!response.ok) {
       // TODO: Error handling, possibly shared errors between cliend & server
-      // TODO: if unauthorised error, try calling refresh
+      if (response.status === 401 && tokenStorage.refreshToken) {
+        return await authService.refresh();
+      }
       throw new Error('Internal server error');
     }
 

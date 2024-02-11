@@ -1,9 +1,11 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Post, Req, UseGuards } from '@nestjs/common';
 import { CommandBus } from '@nestjs/cqrs';
 import { ApiTags } from '@nestjs/swagger';
 import { LoginCommand } from '../commands/login.command';
 import { RefreshCommand } from '../commands/refresh.command';
 import { LogoutCommand } from '../commands/logout.command';
+import { AuthGuard } from '@nestjs/passport';
+import { Request } from 'express';
 
 @ApiTags('Auth')
 @Controller('auth')
@@ -15,14 +17,17 @@ export class AuthController {
     return await this.commandBus.execute(new LoginCommand(token));
   }
 
-  //TODO: Decorator for required login
+  @UseGuards(AuthGuard('jwt-refresh'))
   @Post('refresh')
-  async refresh(@Body('token') refreshToken: string) {
-    return await this.commandBus.execute(new RefreshCommand(refreshToken));
+  async refresh(@Req() req: Request) {
+    const user = req.user;
+    return await this.commandBus.execute(new RefreshCommand(user.refreshToken));
   }
 
+  @UseGuards(AuthGuard('jwt'))
   @Post('logout')
-  async logout(@Body('id') id: string) {
-    return await this.commandBus.execute(new LogoutCommand(id));
+  async logout(@Req() req: Request) {
+    const user = req.user;
+    return await this.commandBus.execute(new LogoutCommand(user.id));
   }
 }

@@ -12,10 +12,8 @@ export class JwtService {
   constructor(private readonly configService: ConfigService) {}
 
   create(data: UserInfoDto): Tokens {
-    const { privateKey, expiryTime } = this.configService.get('jwt');
-    const refreshExpiryTime = this.configService.get<string>(
-      'JWT_REFRESH_EXPIRY_TIME',
-    );
+    const { secretKey, expiryTime, refreshTokenExpiryTime } =
+      this.configService.get('jwt');
 
     return {
       accessToken: jwt.sign(
@@ -25,7 +23,7 @@ export class JwtService {
           picture: data.picture,
           name: data.name,
         },
-        privateKey,
+        secretKey,
         {
           expiresIn: expiryTime,
         },
@@ -37,16 +35,16 @@ export class JwtService {
           picture: data.picture,
           name: data.name,
         },
-        privateKey,
+        secretKey,
         {
-          expiresIn: refreshExpiryTime,
+          expiresIn: refreshTokenExpiryTime,
         },
       ),
     };
   }
 
   check(token: string): UserInfoDto {
-    const privateKey = this.configService.get('JWT_SECRET');
-    return jwt.verify(token, privateKey) as UserInfoDto;
+    const { secretKey } = this.configService.get('jwt');
+    return jwt.verify(token, secretKey) as UserInfoDto;
   }
 }

@@ -943,7 +943,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@mikro-orm/cli@npm:^6.1.1":
+"@mikro-orm/cli@npm:^6.1.2":
   version: 6.1.2
   resolution: "@mikro-orm/cli@npm:6.1.2"
   dependencies:
@@ -960,7 +960,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@mikro-orm/core@npm:6.1.2, @mikro-orm/core@npm:^6.1.1":
+"@mikro-orm/core@npm:6.1.2, @mikro-orm/core@npm:^6.1.2":
   version: 6.1.2
   resolution: "@mikro-orm/core@npm:6.1.2"
   dependencies:
@@ -988,7 +988,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@mikro-orm/migrations@npm:^6.1.1":
+"@mikro-orm/migrations@npm:^6.1.2":
   version: 6.1.2
   resolution: "@mikro-orm/migrations@npm:6.1.2"
   dependencies:
@@ -1012,7 +1012,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@mikro-orm/postgresql@npm:^6.1.1":
+"@mikro-orm/postgresql@npm:^6.1.2":
   version: 6.1.2
   resolution: "@mikro-orm/postgresql@npm:6.1.2"
   dependencies:
@@ -3822,11 +3822,11 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "expenses-tracker-backend@workspace:."
   dependencies:
-    "@mikro-orm/cli": "npm:^6.1.1"
-    "@mikro-orm/core": "npm:^6.1.1"
-    "@mikro-orm/migrations": "npm:^6.1.1"
+    "@mikro-orm/cli": "npm:^6.1.2"
+    "@mikro-orm/core": "npm:^6.1.2"
+    "@mikro-orm/migrations": "npm:^6.1.2"
     "@mikro-orm/nestjs": "npm:^5.2.3"
-    "@mikro-orm/postgresql": "npm:^6.1.1"
+    "@mikro-orm/postgresql": "npm:^6.1.2"
     "@nestjs/cli": "npm:^10.2.1"
     "@nestjs/common": "npm:^10.3.0"
     "@nestjs/config": "npm:^3.1.1"

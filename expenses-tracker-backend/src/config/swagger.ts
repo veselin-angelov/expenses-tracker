@@ -7,6 +7,7 @@ export const createSwaggerConfig = (app: INestApplication) => {
     .setTitle(process.env.APP_NAME as string)
     .setDescription(`This is the ${process.env.APP_NAME} API.`)
     .setVersion(version)
+    .addBearerAuth()
     .build();
 
   const document = SwaggerModule.createDocument(app, config);

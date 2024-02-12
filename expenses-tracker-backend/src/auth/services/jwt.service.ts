@@ -2,6 +2,7 @@ import { UserInfoDto } from '@app/users/dtos/user-info.dto';
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import * as jwt from 'jsonwebtoken';
+import { JWT_CONFIG_KEY, JwtConfig } from '@app/config';
 
 export interface Tokens {
   accessToken: string;
@@ -13,7 +14,7 @@ export class JwtService {
 
   create(data: UserInfoDto): Tokens {
     const { secretKey, expiryTime, refreshTokenExpiryTime } =
-      this.configService.get('jwt');
+      this.configService.get<JwtConfig>(JWT_CONFIG_KEY)!;
 
     return {
       accessToken: jwt.sign(
@@ -44,7 +45,8 @@ export class JwtService {
   }
 
   check(token: string): UserInfoDto {
-    const { secretKey } = this.configService.get('jwt');
+    const { secretKey } = this.configService.get<JwtConfig>(JWT_CONFIG_KEY)!;
+
     return jwt.verify(token, secretKey) as UserInfoDto;
   }
 }

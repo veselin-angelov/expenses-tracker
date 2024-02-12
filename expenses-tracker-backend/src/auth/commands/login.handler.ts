@@ -1,11 +1,10 @@
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
-import { JwtService } from '../services/jwt.service';
-import { LoginCommand } from '../commands/login.command';
+import { GoogleLoginService, JwtService } from '@app/auth/services';
 import { User } from '@app/users/entities';
 import { UserRepository } from '@app/users/repositories';
 import { EntityManager } from '@mikro-orm/postgresql';
-import { GoogleLoginService } from '../services/google-auth.service';
 import * as argon from 'argon2';
+import { LoginCommand } from '@app/auth/commands/login.command';
 
 @CommandHandler(LoginCommand)
 export class LoginHandler implements ICommandHandler<LoginCommand> {

@@ -5,7 +5,10 @@ import { GoogleLoginService, JwtService } from '@app/auth/services';
 import { UsersModule } from '@app/users/users.module';
 import { OAuth2Client } from 'google-auth-library';
 import { ConfigService } from '@nestjs/config';
-import { AuthTokenStrategy, RefreshTokenStrategy } from '@app/auth/strategies';
+import {
+  AccessTokenStrategy,
+  RefreshTokenStrategy,
+} from '@app/auth/strategies';
 import {
   LoginHandler,
   LogoutHandler,
@@ -27,7 +30,7 @@ const sharedProviders: Provider[] = [
     useFactory: (configService: ConfigService) =>
       new OAuth2Client(configService.get<string>('GOOGLE_API_CLIENT_ID')),
   },
-  AuthTokenStrategy,
+  AccessTokenStrategy,
   RefreshTokenStrategy,
 ];
 

@@ -1,3 +1,5 @@
+import { User } from '@app/users/entities';
+
 export class LogoutCommand {
-  constructor(public readonly id: string) {}
+  constructor(public readonly user: User) {}
 }

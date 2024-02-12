@@ -1,22 +1,17 @@
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
-import { UserRepository } from '@app/users/repositories';
 import { EntityManager } from '@mikro-orm/postgresql';
 import { LogoutCommand } from './logout.command';
+import { MessageResponseDto } from '@app/shared/dtos';
 
 @CommandHandler(LogoutCommand)
 export class LogoutHandler implements ICommandHandler<LogoutCommand> {
-  constructor(
-    private readonly userRepository: UserRepository,
-    private readonly em: EntityManager,
-  ) {}
+  constructor(private readonly em: EntityManager) {}
 
-  async execute(command: LogoutCommand) {
-    const user = await this.userRepository.findOneOrFail({ id: command.id });
-
+  async execute({ user }: LogoutCommand) {
     user.refreshToken = undefined;
 
-    this.em.persistAndFlush(user);
+    await this.em.persistAndFlush(user);
 
-    return { message: 'Logout successful' };
+    return new MessageResponseDto('Logout successful');
   }
 }

@@ -1,3 +1,5 @@
+import { User } from '@app/users/entities';
+
 export class RefreshCommand {
-  constructor(public readonly refreshToken: string) {}
+  constructor(public readonly user: User) {}
 }

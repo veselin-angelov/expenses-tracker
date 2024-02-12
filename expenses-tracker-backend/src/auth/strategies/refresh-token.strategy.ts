@@ -5,36 +5,56 @@ import { ConfigService } from '@nestjs/config';
 import { Request } from 'express';
 import { UserRepository } from '@app/users/repositories';
 import { User } from '@app/users/entities';
+import { JWT_CONFIG_KEY, JwtConfig } from '@app/config';
+import * as argon from 'argon2';
 
 @Injectable()
 export class RefreshTokenStrategy extends PassportStrategy(
   Strategy,
-  'jwt-refresh',
+  'refresh-token',
 ) {
   constructor(
-    private readonly configService: ConfigService,
+    readonly configService: ConfigService,
     private readonly userRepository: UserRepository,
   ) {
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-      secretOrKey: configService.get<string>('jwt.secretKey'),
+      secretOrKey: configService.get<JwtConfig>(JWT_CONFIG_KEY)!.secretKey,
       passReqToCallback: true,
     });
   }
 
   async validate(request: Request, payload: any): Promise<User> {
-    const refreshToken = request
+    const plainRefreshToken = request
       ?.get('authorization')
       ?.replace('Bearer', '')
       .trim();
 
-    if (!refreshToken) throw new ForbiddenException('Refresh token malformed');
+    if (!plainRefreshToken) {
+      throw new ForbiddenException('Refresh token malformed');
+    }
 
-    const user = this.userRepository.findOneOrFail({ id: payload.id });
+    // TODO: move tokens to a separate entity
+    const user = await this.userRepository.findOne({
+      id: payload.id,
+      active: true,
+    });
 
-    return {
-      ...user,
-      refreshToken,
-    };
+    if (!user || !user.refreshToken) {
+      throw new ForbiddenException('Access denied');
+    }
+
+    const tokensMatch = await argon.verify(
+      user.refreshToken,
+      plainRefreshToken,
+    );
+
+    if (!tokensMatch) {
+      throw new ForbiddenException('Access Denied');
+    }
+
+    user.refreshToken = plainRefreshToken;
+
+    return user;
   }
 }

@@ -1,4 +1,4 @@
-import { Injectable, BadRequestException } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { OAuth2Client, TokenPayload } from 'google-auth-library';
 import { ConfigService } from '@nestjs/config';
 
@@ -27,8 +27,7 @@ export class GoogleLoginService {
       throw new BadRequestException('No token payload provided');
     }
 
-    const userInfo = this.extractUserInfoFromPayload(payload);
-    return userInfo;
+    return this.extractUserInfoFromPayload(payload);
   }
 
   private extractUserInfoFromPayload(payload: TokenPayload) {

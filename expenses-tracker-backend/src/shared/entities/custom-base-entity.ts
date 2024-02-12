@@ -1,6 +1,7 @@
 import {
   BaseEntity,
   Config,
+  DateTimeType,
   DefineConfig,
   PrimaryKey,
   Property,
@@ -28,6 +29,7 @@ export abstract class CustomBaseEntity extends BaseEntity {
   @Property({
     onUpdate: () => new Date(),
     nullable: true,
+    type: DateTimeType,
   })
-  public updatedAt?: Date | null = null;
+  public updatedAt?: Date;
 }

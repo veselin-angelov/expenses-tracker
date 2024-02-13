@@ -6,9 +6,9 @@ export function displayAmountWithCurrency(
 ) {
   switch (currency) {
     case CurrencyEnum.BGN:
-      return `${amount}лв.`;
+      return `${amount} лв.`;
     case CurrencyEnum.EUR:
-      return `${amount}€`;
+      return `${amount} €`;
     case CurrencyEnum.USD:
       return `$${amount}`;
     case CurrencyEnum.GBP:

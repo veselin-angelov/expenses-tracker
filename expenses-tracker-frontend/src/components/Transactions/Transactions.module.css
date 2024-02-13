@@ -1,3 +1,4 @@
-.item {
-  color: black;
+.tableHeader {
+  display: flex;
+  justify-content: space-between;
 }

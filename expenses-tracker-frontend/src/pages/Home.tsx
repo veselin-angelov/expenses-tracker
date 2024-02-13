@@ -1,3 +1,5 @@
+import { Transactions } from '../components/Transactions/Transactions';
+
 export function Home() {
-  return <h1>Hello world</h1>;
+  return <Transactions />;
 }

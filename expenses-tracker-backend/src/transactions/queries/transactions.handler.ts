@@ -1,7 +1,7 @@
 import { IQueryHandler, QueryHandler } from '@nestjs/cqrs';
-import { Transaction } from '@app/transactions/entities';
 import { GetUserTransactionsQuery } from '@app/transactions/queries';
 import { TransactionRepository } from '../repositories';
+import { TransactionsResultWithCountDto } from '../dtos/transactions-with-count.dto';
 
 @QueryHandler(GetUserTransactionsQuery)
 export class GetUserTransactionsHandler
@@ -9,7 +9,13 @@ export class GetUserTransactionsHandler
 {
   constructor(private readonly transactionRepository: TransactionRepository) {}
 
-  async execute({ userId }: GetUserTransactionsQuery): Promise<Transaction[]> {
-    return this.transactionRepository.find({ owner: userId });
+  async execute({
+    userId,
+  }: GetUserTransactionsQuery): Promise<TransactionsResultWithCountDto> {
+    const [result, count] = await this.transactionRepository.findAndCount({
+      owner: userId,
+    });
+
+    return new TransactionsResultWithCountDto(result, count);
   }
 }

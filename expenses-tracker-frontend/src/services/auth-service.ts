@@ -7,7 +7,12 @@ interface LoginResponseToken {
 }
 
 class AuthService {
-  private http = new HttpService();
+  private http: HttpService;
+  constructor() {
+    this.http = new HttpService();
+    // Set the refresh logic callback
+    this.http.setOnUnauthorizedCallback(this.refresh.bind(this));
+  }
 
   async login(googleToken: string) {
     const result = await this.http.post<LoginResponseToken>('/auth/login', {

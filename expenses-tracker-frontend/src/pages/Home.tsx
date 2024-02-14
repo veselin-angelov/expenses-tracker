@@ -1,8 +1,12 @@
 import { Copyright } from '@mui/icons-material';
 import { Box, Toolbar, Container, Grid, Paper } from '@mui/material';
 import { Transactions } from '../components/Transactions/Transactions';
+import { TransactionForm } from '../forms/TransactionForm';
+import { useState } from 'react';
 
 export function Home() {
+  const [displayTransactionForm, setDisplayTransactionForm] = useState(false);
+
   return (
     <Box
       component="main"
@@ -44,7 +48,15 @@ export function Home() {
           {/* Recent Transactions */}
           <Grid item xs={12}>
             <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
-              <Transactions />
+              {displayTransactionForm ? (
+                <TransactionForm
+                  onGoBack={() => setDisplayTransactionForm(false)}
+                />
+              ) : (
+                <Transactions
+                  onAddTransactionClick={() => setDisplayTransactionForm(true)}
+                />
+              )}
             </Paper>
           </Grid>
         </Grid>

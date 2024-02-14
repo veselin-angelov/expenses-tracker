@@ -42,7 +42,11 @@ const mockTransactions: Omit<TransactionResponse, 'owner'>[] = [
   },
 ];
 
-export function Transactions() {
+interface TransactionsProps {
+  onAddTransactionClick: () => void;
+}
+
+export function Transactions({ onAddTransactionClick }: TransactionsProps) {
   const user = useCurrentUser();
 
   // TODO: Handle no user scenario
@@ -70,7 +74,9 @@ export function Transactions() {
     <>
       <div className={classes.tableHeader}>
         <Typography variant="h5">Recent Transactions</Typography>
-        <Button variant="contained">Add Transaction</Button>
+        <Button variant="contained" onClick={onAddTransactionClick}>
+          Add Transaction
+        </Button>
       </div>
       <Table size="small">
         <TableHead>

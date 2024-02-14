@@ -53,6 +53,8 @@ export class RefreshTokenStrategy extends PassportStrategy(
       throw new ForbiddenException('Access Denied');
     }
 
+    user.refreshToken = plainRefreshToken;
+
     return user;
   }
 }

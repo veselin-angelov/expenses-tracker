@@ -12,6 +12,7 @@ import {
 import { DatabaseModule } from '@app/shared/database/database.module';
 import { LoggerModule } from '@app/shared/logger/logger.module';
 import { S3Module } from '@lab08/nestjs-s3';
+import { FilterModule } from '@app/shared/filter/filter.module';
 
 @Global()
 @Module({
@@ -21,6 +22,7 @@ import { S3Module } from '@lab08/nestjs-s3';
       load: [database, app, logger, jwt, awsS3],
       envFilePath: `.env`,
     }),
+    FilterModule,
     DatabaseModule,
     LoggerModule,
     S3Module.forRootAsync({
@@ -39,6 +41,6 @@ import { S3Module } from '@lab08/nestjs-s3';
       },
     }),
   ],
-  exports: [ConfigModule, DatabaseModule, LoggerModule],
+  exports: [ConfigModule, DatabaseModule, LoggerModule, FilterModule],
 })
 export class SharedModule {}

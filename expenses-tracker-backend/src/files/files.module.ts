@@ -15,6 +15,7 @@ import { FileResponseTransformerFactory } from '@app/files/factories';
 import { SignUrlTransformer } from '@app/files/transformers';
 import { SignedUrlService } from '@lab08/nestjs-s3';
 import { File } from '@app/files/entities';
+import { UsersModule } from '@app/users/users.module';
 
 const commandHandlers = [SaveFileHandler];
 
@@ -60,6 +61,7 @@ const sharedProviders: Provider[] = [
   controllers: [FilesController],
   imports: [
     forwardRef(() => AuthModule),
+    forwardRef(() => UsersModule),
     MikroOrmModule.forFeature({
       entities: [File],
     }),

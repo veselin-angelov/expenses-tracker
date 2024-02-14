@@ -39,6 +39,7 @@ export const options: MikroOrmModuleOptions = {
     max: 10,
     min: 0,
   },
+  serialization: { forceObject: true },
 };
 
 export default options;

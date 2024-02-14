@@ -1789,7 +1789,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@nestjs/cli@npm:^10.2.1":
+"@nestjs/cli@npm:^10.3.2":
   version: 10.3.2
   resolution: "@nestjs/cli@npm:10.3.2"
   dependencies:
@@ -1829,7 +1829,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@nestjs/common@npm:^10.3.0":
+"@nestjs/common@npm:^10.3.3":
   version: 10.3.3
   resolution: "@nestjs/common@npm:10.3.3"
   dependencies:
@@ -1850,7 +1850,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@nestjs/config@npm:^3.1.1":
+"@nestjs/config@npm:^3.2.0":
   version: 3.2.0
   resolution: "@nestjs/config@npm:3.2.0"
   dependencies:
@@ -1865,7 +1865,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@nestjs/core@npm:^10.3.0":
+"@nestjs/core@npm:^10.3.3":
   version: 10.3.3
   resolution: "@nestjs/core@npm:10.3.3"
   dependencies:
@@ -1893,7 +1893,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@nestjs/cqrs@npm:^10.2.6":
+"@nestjs/cqrs@npm:^10.2.7":
   version: 10.2.7
   resolution: "@nestjs/cqrs@npm:10.2.7"
   dependencies:
@@ -1946,7 +1946,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@nestjs/platform-express@npm:^10.3.0":
+"@nestjs/platform-express@npm:^10.3.3":
   version: 10.3.3
   resolution: "@nestjs/platform-express@npm:10.3.3"
   dependencies:
@@ -1962,7 +1962,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@nestjs/schematics@npm:^10.0.1, @nestjs/schematics@npm:^10.0.3":
+"@nestjs/schematics@npm:^10.0.1, @nestjs/schematics@npm:^10.1.1":
   version: 10.1.1
   resolution: "@nestjs/schematics@npm:10.1.1"
   dependencies:
@@ -1977,7 +1977,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@nestjs/swagger@npm:^7.1.17":
+"@nestjs/swagger@npm:^7.3.0":
   version: 7.3.0
   resolution: "@nestjs/swagger@npm:7.3.0"
   dependencies:
@@ -2005,7 +2005,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@nestjs/testing@npm:^10.3.0":
+"@nestjs/testing@npm:^10.3.3":
   version: 10.3.3
   resolution: "@nestjs/testing@npm:10.3.3"
   dependencies:
@@ -5245,17 +5245,17 @@ __metadata:
     "@mikro-orm/nestjs": "npm:^5.2.3"
     "@mikro-orm/postgresql": "npm:^6.1.2"
     "@nestjs/axios": "npm:^3.0.2"
-    "@nestjs/cli": "npm:^10.2.1"
-    "@nestjs/common": "npm:^10.3.0"
-    "@nestjs/config": "npm:^3.1.1"
-    "@nestjs/core": "npm:^10.3.0"
-    "@nestjs/cqrs": "npm:^10.2.6"
+    "@nestjs/cli": "npm:^10.3.2"
+    "@nestjs/common": "npm:^10.3.3"
+    "@nestjs/config": "npm:^3.2.0"
+    "@nestjs/core": "npm:^10.3.3"
+    "@nestjs/cqrs": "npm:^10.2.7"
     "@nestjs/jwt": "npm:^10.2.0"
     "@nestjs/passport": "npm:^10.0.3"
-    "@nestjs/platform-express": "npm:^10.3.0"
-    "@nestjs/schematics": "npm:^10.0.3"
-    "@nestjs/swagger": "npm:^7.1.17"
-    "@nestjs/testing": "npm:^10.3.0"
+    "@nestjs/platform-express": "npm:^10.3.3"
+    "@nestjs/schematics": "npm:^10.1.1"
+    "@nestjs/swagger": "npm:^7.3.0"
+    "@nestjs/testing": "npm:^10.3.3"
     "@types/express": "npm:^4.17.21"
     "@types/jest": "npm:^29.5.11"
     "@types/jsonwebtoken": "npm:^9"
@@ -5287,7 +5287,7 @@ __metadata:
     passport-jwt: "npm:^4.0.1"
     prettier: "npm:3.1.1"
     pretty-bytes: "npm:^5.6.0"
-    reflect-metadata: "npm:0.1.13"
+    reflect-metadata: "npm:^0.2.1"
     rxjs: "npm:^7.8.1"
     source-map-support: "npm:^0.5.21"
     supertest: "npm:^6.3.3"
@@ -8731,14 +8731,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"reflect-metadata@npm:0.1.13":
-  version: 0.1.13
-  resolution: "reflect-metadata@npm:0.1.13"
-  checksum: 10c0/728bff0b376b05639fd11ed80c648b61f7fe653c5b506d7ca118e58b6752b9b00810fe0c86227ecf02bd88da6251ab3eb19fd403aaf2e9ff5ef36a2fda643026
-  languageName: node
-  linkType: hard
-
-"reflect-metadata@npm:0.2.1":
+"reflect-metadata@npm:0.2.1, reflect-metadata@npm:^0.2.1":
   version: 0.2.1
   resolution: "reflect-metadata@npm:0.2.1"
   checksum: 10c0/6ca3c674bb43cf8ec3a3f5f38c8730a6116335f8e562fcdcdf3a492af168c5a7f0e8f17476a5710c3fe6bf9b5d22e8a463f14c0e26e326339cab65e099900ef7

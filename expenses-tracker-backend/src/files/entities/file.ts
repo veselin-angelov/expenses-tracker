@@ -56,7 +56,6 @@ export class File extends CustomBaseEntity {
     readOnly: true,
     description: 'The user who uploaded the file.',
   })
-  // @ReferenceToEntity()
   @ManyToOne({
     entity: () => User,
     index: true,

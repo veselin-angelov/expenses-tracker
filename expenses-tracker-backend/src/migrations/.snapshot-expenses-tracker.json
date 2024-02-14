@@ -143,152 +143,6 @@
           "length": 6,
           "mappedType": "datetime"
         },
-        "merchant_name": {
-          "name": "merchant_name",
-          "type": "varchar(255)",
-          "unsigned": false,
-          "autoincrement": false,
-          "primary": false,
-          "nullable": true,
-          "mappedType": "string"
-        },
-        "merchant_address": {
-          "name": "merchant_address",
-          "type": "varchar(255)",
-          "unsigned": false,
-          "autoincrement": false,
-          "primary": false,
-          "nullable": true,
-          "mappedType": "string"
-        },
-        "date": {
-          "name": "date",
-          "type": "timestamptz",
-          "unsigned": false,
-          "autoincrement": false,
-          "primary": false,
-          "nullable": false,
-          "length": 6,
-          "default": "now()",
-          "mappedType": "datetime"
-        },
-        "amount": {
-          "name": "amount",
-          "type": "numeric(10,2)",
-          "unsigned": false,
-          "autoincrement": false,
-          "primary": false,
-          "nullable": false,
-          "precision": 10,
-          "scale": 2,
-          "mappedType": "decimal"
-        },
-        "currency": {
-          "name": "currency",
-          "type": "text",
-          "unsigned": false,
-          "autoincrement": false,
-          "primary": false,
-          "nullable": false,
-          "enumItems": [
-            "BGN",
-            "EUR",
-            "USD",
-            "GBP"
-          ],
-          "mappedType": "enum"
-        },
-        "description": {
-          "name": "description",
-          "type": "varchar(255)",
-          "unsigned": false,
-          "autoincrement": false,
-          "primary": false,
-          "nullable": true,
-          "mappedType": "string"
-        },
-        "owner_id": {
-          "name": "owner_id",
-          "type": "varchar(255)",
-          "unsigned": false,
-          "autoincrement": false,
-          "primary": false,
-          "nullable": false,
-          "mappedType": "string"
-        }
-      },
-      "name": "transaction",
-      "schema": "public",
-      "indexes": [
-        {
-          "columnNames": [
-            "created_at"
-          ],
-          "composite": false,
-          "keyName": "transaction_created_at_index",
-          "constraint": false,
-          "primary": false,
-          "unique": false
-        },
-        {
-          "keyName": "transaction_pkey",
-          "columnNames": [
-            "id"
-          ],
-          "composite": false,
-          "constraint": true,
-          "primary": true,
-          "unique": true
-        }
-      ],
-      "checks": [],
-      "foreignKeys": {
-        "transaction_owner_id_foreign": {
-          "constraintName": "transaction_owner_id_foreign",
-          "columnNames": [
-            "owner_id"
-          ],
-          "localTableName": "public.transaction",
-          "referencedColumnNames": [
-            "id"
-          ],
-          "referencedTableName": "public.user",
-          "updateRule": "cascade"
-        }
-      },
-      "nativeEnums": {}
-    },
-    {
-      "columns": {
-        "id": {
-          "name": "id",
-          "type": "varchar(255)",
-          "unsigned": false,
-          "autoincrement": false,
-          "primary": false,
-          "nullable": false,
-          "mappedType": "string"
-        },
-        "created_at": {
-          "name": "created_at",
-          "type": "timestamptz",
-          "unsigned": false,
-          "autoincrement": false,
-          "primary": false,
-          "nullable": false,
-          "length": 6,
-          "mappedType": "datetime"
-        },
-        "updated_at": {
-          "name": "updated_at",
-          "type": "timestamptz",
-          "unsigned": false,
-          "autoincrement": false,
-          "primary": false,
-          "nullable": true,
-          "length": 6,
-          "mappedType": "datetime"
-        },
         "bucket": {
           "name": "bucket",
           "type": "varchar(255)",
@@ -399,6 +253,194 @@
             "id"
           ],
           "referencedTableName": "public.user",
+          "deleteRule": "set null",
+          "updateRule": "cascade"
+        }
+      },
+      "nativeEnums": {}
+    },
+    {
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "varchar(255)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "string"
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamptz",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "length": 6,
+          "mappedType": "datetime"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamptz",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "length": 6,
+          "mappedType": "datetime"
+        },
+        "merchant_name": {
+          "name": "merchant_name",
+          "type": "varchar(255)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "mappedType": "string"
+        },
+        "merchant_address": {
+          "name": "merchant_address",
+          "type": "varchar(255)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "mappedType": "string"
+        },
+        "date": {
+          "name": "date",
+          "type": "timestamptz",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "length": 6,
+          "default": "now()",
+          "mappedType": "datetime"
+        },
+        "amount": {
+          "name": "amount",
+          "type": "numeric(10,2)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "precision": 10,
+          "scale": 2,
+          "mappedType": "decimal"
+        },
+        "currency": {
+          "name": "currency",
+          "type": "text",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "enumItems": [
+            "BGN",
+            "EUR",
+            "USD",
+            "GBP"
+          ],
+          "mappedType": "enum"
+        },
+        "description": {
+          "name": "description",
+          "type": "varchar(255)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "mappedType": "string"
+        },
+        "owner_id": {
+          "name": "owner_id",
+          "type": "varchar(255)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "string"
+        },
+        "receipt_id": {
+          "name": "receipt_id",
+          "type": "varchar(255)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "mappedType": "string"
+        }
+      },
+      "name": "transaction",
+      "schema": "public",
+      "indexes": [
+        {
+          "columnNames": [
+            "created_at"
+          ],
+          "composite": false,
+          "keyName": "transaction_created_at_index",
+          "constraint": false,
+          "primary": false,
+          "unique": false
+        },
+        {
+          "columnNames": [
+            "owner_id"
+          ],
+          "composite": false,
+          "keyName": "transaction_owner_id_index",
+          "constraint": false,
+          "primary": false,
+          "unique": false
+        },
+        {
+          "columnNames": [
+            "receipt_id"
+          ],
+          "composite": false,
+          "keyName": "transaction_receipt_id_index",
+          "constraint": false,
+          "primary": false,
+          "unique": false
+        },
+        {
+          "keyName": "transaction_pkey",
+          "columnNames": [
+            "id"
+          ],
+          "composite": false,
+          "constraint": true,
+          "primary": true,
+          "unique": true
+        }
+      ],
+      "checks": [],
+      "foreignKeys": {
+        "transaction_owner_id_foreign": {
+          "constraintName": "transaction_owner_id_foreign",
+          "columnNames": [
+            "owner_id"
+          ],
+          "localTableName": "public.transaction",
+          "referencedColumnNames": [
+            "id"
+          ],
+          "referencedTableName": "public.user",
+          "updateRule": "cascade"
+        },
+        "transaction_receipt_id_foreign": {
+          "constraintName": "transaction_receipt_id_foreign",
+          "columnNames": [
+            "receipt_id"
+          ],
+          "localTableName": "public.transaction",
+          "referencedColumnNames": [
+            "id"
+          ],
+          "referencedTableName": "public.file",
           "deleteRule": "set null",
           "updateRule": "cascade"
         }

@@ -11,9 +11,9 @@ export class FileHandler implements IQueryHandler<FileQuery> {
     private readonly fileResponseTransformer: FileResponseTransformerFactory,
   ) {}
 
-  public async execute(query: FileQuery): Promise<File> {
+  public async execute({ id, permissionFilters }: FileQuery): Promise<File> {
     const file = await this.fileRepository.findOneOrFail({
-      id: query.id,
+      $and: [{ id }, { ...(permissionFilters as any) }],
     });
 
     return await this.fileResponseTransformer.transform(file);

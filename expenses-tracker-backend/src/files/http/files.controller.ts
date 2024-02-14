@@ -15,6 +15,7 @@ import { SaveFileCommand } from '@app/files/commands';
 import { InjectUser } from '@app/auth/decorators';
 import { User } from '@app/users/entities';
 import { FileValidationService } from '@app/files/services';
+import { File } from '@app/files/entities';
 
 @ApiTags('Files')
 @Controller('files')
@@ -27,8 +28,11 @@ export class FilesController {
 
   @ApiFile()
   @Get(':id')
-  public async single(@Param('id', ParseUUIDPipe) id: string): Promise<File> {
-    return await this.queryBus.execute(new FileQuery(id));
+  public async single(
+    @Param('id', ParseUUIDPipe) id: string,
+    @InjectUser() user: User,
+  ): Promise<File> {
+    return await this.queryBus.execute(new FileQuery(id, { createdBy: user }));
   }
 
   @ApiSaveFile()

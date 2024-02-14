@@ -5,7 +5,7 @@ import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { SaveFileCommand } from '@app/files/commands/save-file.command';
 import { EntityManager } from '@mikro-orm/postgresql';
 import { File } from '@app/files/entities';
-import { ObjectsService, SignedUrlService } from '@lab08/nestjs-s3';
+import { ObjectsService } from '@lab08/nestjs-s3';
 import { v4 } from 'uuid';
 import { ConfigService } from '@nestjs/config';
 import { AWS_S3_CONFIG_KEY, AwsS3Config } from '@app/config/aws-s3';
@@ -16,7 +16,6 @@ export class SaveFileHandler implements ICommandHandler<SaveFileCommand> {
   public constructor(
     private readonly em: EntityManager,
     private readonly objectService: ObjectsService,
-    private readonly signedUrlService: SignedUrlService,
     private readonly configService: ConfigService,
     private readonly fileResponseTransformer: FileResponseTransformerFactory,
   ) {}

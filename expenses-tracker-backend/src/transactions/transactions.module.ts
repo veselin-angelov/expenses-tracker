@@ -3,13 +3,25 @@ import { MikroOrmModule } from '@mikro-orm/nestjs';
 import { CqrsModule } from '@nestjs/cqrs';
 import { Transaction } from '@app/transactions/entities';
 import { TransactionsController } from '@app/transactions/http';
-import { GetUserTransactionsHandler } from '@app/transactions/queries';
+import {
+  TransactionHandler,
+  TransactionsHandler,
+} from '@app/transactions/queries';
+import {
+  CreateTransactionFromImageHandler,
+  SaveTransactionHandler,
+} from '@app/transactions/commands';
 
 const controllers = [TransactionsController];
 
-const queryHandlers = [GetUserTransactionsHandler];
+const queryHandlers = [TransactionsHandler, TransactionHandler];
 
-const sharedProviders: Provider[] = [...queryHandlers];
+const commandHandlers = [
+  SaveTransactionHandler,
+  CreateTransactionFromImageHandler,
+];
+
+const sharedProviders: Provider[] = [...queryHandlers, ...commandHandlers];
 
 @Module({
   imports: [

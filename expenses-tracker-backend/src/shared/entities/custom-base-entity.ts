@@ -13,7 +13,8 @@ export abstract class CustomBaseEntity extends BaseEntity {
   [Config]?: DefineConfig<{ forceObject: true }>;
 
   @ApiProperty({
-    type: 'uuid',
+    nullable: false,
+    readOnly: true,
   })
   @PrimaryKey()
   public id: string = v4();

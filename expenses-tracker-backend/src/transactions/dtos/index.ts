@@ -1,2 +1,3 @@
-export * from './create-transaction.dto';
-export * from './query-transaction.dto';
+export * from './transaction.dto';
+export * from './transactions-result-with-count.dto';
+export * from './transaction-from-image.dto';

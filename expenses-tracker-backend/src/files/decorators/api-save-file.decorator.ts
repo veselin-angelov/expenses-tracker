@@ -6,7 +6,7 @@ import {
   ApiOperation,
   getSchemaPath,
 } from '@nestjs/swagger';
-import { File } from '../entities';
+import { File } from '@app/files/entities';
 import { Api } from '@app/shared/decorators';
 import { ApiProtected } from '@app/auth/decorators';
 

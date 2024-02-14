@@ -1,8 +1,8 @@
 .body {
-  /* margin: 0px 20vw; */
+  margin: 0px 20vw;
 }
 @media screen and (max-width: 1050px) {
   .body {
-    /* margin: 0px 10vw; */
+    margin: 0px 10vw;
   }
 }

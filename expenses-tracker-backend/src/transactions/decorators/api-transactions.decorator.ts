@@ -13,7 +13,6 @@ export const ApiTransactions = () =>
   applyDecorators(
     Api(),
     ApiProtected(),
-    // UseGuards(UserAccessGuard),
     ApiOperation({
       summary: 'Returns a list of transactions for a user',
     }),

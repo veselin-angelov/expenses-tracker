@@ -23,6 +23,7 @@
           "primary": false,
           "nullable": false,
           "length": 6,
+          "default": "CURRENT_TIMESTAMP",
           "mappedType": "datetime"
         },
         "updated_at": {
@@ -131,6 +132,7 @@
           "primary": false,
           "nullable": false,
           "length": 6,
+          "default": "CURRENT_TIMESTAMP",
           "mappedType": "datetime"
         },
         "updated_at": {
@@ -278,6 +280,7 @@
           "primary": false,
           "nullable": false,
           "length": 6,
+          "default": "CURRENT_TIMESTAMP",
           "mappedType": "datetime"
         },
         "updated_at": {
@@ -316,7 +319,7 @@
           "primary": false,
           "nullable": false,
           "length": 6,
-          "default": "now()",
+          "default": "CURRENT_TIMESTAMP",
           "mappedType": "datetime"
         },
         "amount": {
@@ -382,6 +385,26 @@
           ],
           "composite": false,
           "keyName": "transaction_created_at_index",
+          "constraint": false,
+          "primary": false,
+          "unique": false
+        },
+        {
+          "columnNames": [
+            "date"
+          ],
+          "composite": false,
+          "keyName": "transaction_date_index",
+          "constraint": false,
+          "primary": false,
+          "unique": false
+        },
+        {
+          "columnNames": [
+            "amount"
+          ],
+          "composite": false,
+          "keyName": "transaction_amount_index",
           "constraint": false,
           "primary": false,
           "unique": false

@@ -21,8 +21,10 @@ export abstract class CustomBaseEntity extends BaseEntity {
 
   @ApiProperty()
   @Property({
+    defaultRaw: 'CURRENT_TIMESTAMP',
     onCreate: () => new Date(),
     index: true,
+    type: DateTimeType,
   })
   public createdAt: Date;
 

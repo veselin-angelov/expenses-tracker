@@ -39,7 +39,8 @@ export class Transaction extends CustomBaseEntity {
   })
   @Property({
     nullable: false,
-    defaultRaw: 'now()',
+    defaultRaw: 'CURRENT_TIMESTAMP',
+    index: true,
   })
   public date: Date = new Date();
 
@@ -48,6 +49,7 @@ export class Transaction extends CustomBaseEntity {
   })
   @Property({
     columnType: 'numeric(10,2)',
+    index: true,
   })
   public amount: string;
 

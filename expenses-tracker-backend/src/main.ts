@@ -3,6 +3,7 @@ import { AppModule } from '@app/app.module';
 import { createSwaggerConfig } from '@app/config';
 import { LOGGER } from '@app/shared/logger/constants';
 import { AppHttpExceptionFilter } from '@app/app-http-exception.filter';
+import { useContainer } from 'class-validator';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
@@ -19,6 +20,7 @@ async function bootstrap() {
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
     credentials: true,
   });
+  useContainer(app.select(AppModule), { fallbackOnErrors: true });
   createSwaggerConfig(app);
 
   await app.listen(process.env.NODE_PORT || 3000);

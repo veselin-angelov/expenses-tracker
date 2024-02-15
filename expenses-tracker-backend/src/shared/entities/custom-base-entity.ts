@@ -13,15 +13,18 @@ export abstract class CustomBaseEntity extends BaseEntity {
   [Config]?: DefineConfig<{ forceObject: true }>;
 
   @ApiProperty({
-    type: 'uuid',
+    nullable: false,
+    readOnly: true,
   })
   @PrimaryKey()
   public id: string = v4();
 
   @ApiProperty()
   @Property({
+    defaultRaw: 'CURRENT_TIMESTAMP',
     onCreate: () => new Date(),
     index: true,
+    type: DateTimeType,
   })
   public createdAt: Date;
 

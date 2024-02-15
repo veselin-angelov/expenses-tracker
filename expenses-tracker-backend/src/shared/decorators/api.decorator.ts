@@ -1,9 +1,6 @@
 import {
   applyDecorators,
-  ClassSerializerInterceptor,
   HttpStatus,
-  SerializeOptions,
-  UseInterceptors,
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
@@ -25,10 +22,4 @@ export const Api = () =>
         },
       }),
     ),
-    UseInterceptors(ClassSerializerInterceptor),
-    SerializeOptions({
-      enableCircularCheck: true,
-      enableImplicitConversion: true,
-      strategy: 'exposeAll',
-    }),
   );

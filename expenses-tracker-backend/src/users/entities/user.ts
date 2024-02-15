@@ -2,13 +2,14 @@ import {
   Cascade,
   Collection,
   Entity,
+  Hidden,
   OneToMany,
   Property,
 } from '@mikro-orm/core';
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiHideProperty, ApiProperty } from '@nestjs/swagger';
 import { UserRepository } from '@app/users/repositories';
 import { CustomBaseEntity } from '@app/shared/entities';
-import { Transaction } from '@app/transactions/entities/transaction';
+import { Transaction } from '@app/transactions/entities';
 
 @Entity({
   repository: () => UserRepository,
@@ -27,9 +28,10 @@ export class User extends CustomBaseEntity {
     nullable: true,
   })
   @Property({
+    hidden: true,
     nullable: true,
   })
-  public refreshToken?: string;
+  public refreshToken?: string & Hidden;
 
   @ApiProperty({
     type: 'boolean',
@@ -40,9 +42,10 @@ export class User extends CustomBaseEntity {
   })
   public active: boolean = true;
 
+  @ApiHideProperty()
   @OneToMany({
     entity: () => Transaction,
-    mappedBy: 'owner',
+    mappedBy: (transaction: Transaction) => transaction.owner,
     cascade: [Cascade.ALL],
   })
   public transactions = new Collection<Transaction>(this);

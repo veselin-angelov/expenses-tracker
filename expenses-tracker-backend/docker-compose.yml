@@ -16,6 +16,8 @@ services:
     command: /usr/src/scripts/start-api.sh
     env_file:
       - ${DOCKER_ENV_FILE:-.env}
+    depends_on:
+      - postgres
   nginx:
     container_name: expenses_tracker_nginx
     image: nginx:latest

@@ -1,9 +1,18 @@
-import { Entity, Enum, ManyToOne, Property } from '@mikro-orm/core';
+import {
+  Entity,
+  Enum,
+  LoadStrategy,
+  ManyToOne,
+  Property,
+  Ref,
+  Reference,
+} from '@mikro-orm/core';
 import { ApiProperty } from '@nestjs/swagger';
 import { CustomBaseEntity } from '@app/shared/entities';
-import { CurrencyEnum } from '../enums';
 import { User } from '@app/users/entities';
 import { TransactionRepository } from '@app/transactions/repositories';
+import { CurrencyEnum } from '@app/transactions/enums';
+import { File } from '@app/files/entities';
 
 @Entity({
   repository: () => TransactionRepository,
@@ -30,7 +39,8 @@ export class Transaction extends CustomBaseEntity {
   })
   @Property({
     nullable: false,
-    defaultRaw: 'now()',
+    defaultRaw: 'CURRENT_TIMESTAMP',
+    index: true,
   })
   public date: Date = new Date();
 
@@ -39,6 +49,7 @@ export class Transaction extends CustomBaseEntity {
   })
   @Property({
     columnType: 'numeric(10,2)',
+    index: true,
   })
   public amount: string;
 
@@ -61,6 +72,32 @@ export class Transaction extends CustomBaseEntity {
   @ApiProperty({
     nullable: false,
   })
-  @ManyToOne({ entity: () => User, nullable: false })
-  public owner!: User;
+  @ManyToOne({
+    entity: () => User,
+    strategy: LoadStrategy.JOINED,
+    ref: true,
+    index: true,
+    nullable: false,
+  })
+  public owner: Ref<User>;
+
+  @ApiProperty({
+    nullable: false,
+  })
+  @ManyToOne({
+    entity: () => File,
+    strategy: LoadStrategy.JOINED,
+    ref: true,
+    index: true,
+    nullable: true,
+  })
+  public receipt?: Ref<File>;
+
+  public getOwner(): Promise<User | null> {
+    return this.owner?.load();
+  }
+
+  public setOwner(user: User): void {
+    this.owner = Reference.create(user);
+  }
 }

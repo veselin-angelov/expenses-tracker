@@ -10,7 +10,6 @@ import { Request } from 'express';
 import { omit } from 'lodash';
 import { exceptionsMap, LOGGER } from '@app/shared/logger/constants';
 import { User } from '@app/users/entities';
-import { instanceToPlain } from 'class-transformer';
 
 const sanitizePasswords = (
   object: Record<string, any>,
@@ -39,13 +38,11 @@ export class AppHttpExceptionFilter extends BaseExceptionFilter {
 
   public catch(exception: Error, host: ArgumentsHost) {
     const request = host.switchToHttp().getRequest<Request>();
-    const user: Partial<User> | null = request.user ?? null;
+
+    const user: User | null = request.user ?? null;
+
     const context = JSON.stringify({
-      user: user
-        ? omit(instanceToPlain(user, { enableCircularCheck: true }), [
-            'password',
-          ])
-        : null,
+      user: user ? omit(user.toObject(), ['password']) : null,
       route: request?.route?.path,
       params: request?.params,
       body: sanitizePasswords(request?.body),

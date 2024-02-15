@@ -1,5 +1,4 @@
 import { config } from '../config';
-import { authService } from './auth-service';
 import { tokenStorage } from './user-info-service';
 
 export interface RequestOptions {
@@ -10,6 +9,18 @@ export interface RequestOptions {
 }
 
 export class HttpService {
+  //TODO: Use an EventEmitter instead
+  private onUnauthorizedCallback: () => Promise<void>;
+
+  constructor() {
+    // Initially, no callback is set
+    this.onUnauthorizedCallback = async () => {};
+  }
+
+  setOnUnauthorizedCallback(callback: () => Promise<void>) {
+    this.onUnauthorizedCallback = callback;
+  }
+
   async get<T>(
     path: string,
     options: { query?: { [key: string]: string } } = {},
@@ -59,7 +70,7 @@ export class HttpService {
     if (!response.ok) {
       // TODO: Error handling, possibly shared errors between cliend & server
       if (response.status === 401 && tokenStorage.refreshToken) {
-        return await authService.refresh();
+        await this.onUnauthorizedCallback();
       }
       throw new Error('Internal server error');
     }

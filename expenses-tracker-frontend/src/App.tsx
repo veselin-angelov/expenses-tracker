@@ -4,6 +4,7 @@ import { Home } from './pages/Home';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import { config } from './config';
 import { PageLayout } from './layouts/PageLayout/PageLayout';
+import { PrivateOutlet } from './contexts/PrivateOutlet';
 
 export function App() {
   return (
@@ -12,7 +13,9 @@ export function App() {
         <BrowserRouter>
           <PageLayout>
             <Routes>
-              <Route path="/" element={<Home />} />
+              <Route path="/" element={<PrivateOutlet />}>
+                <Route path="/" element={<Home />} />
+              </Route>
               <Route path="*" element={<Navigate to="/" />} />
             </Routes>
           </PageLayout>

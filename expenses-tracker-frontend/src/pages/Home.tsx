@@ -1,7 +1,12 @@
 import { Grid, Paper } from '@mui/material';
 import { Transactions } from '../components/Transactions/Transactions';
+import { SpendingsChart } from '../components/SpendingsChart';
+import { useState } from 'react';
+import { TotalSpendings } from '../components/TotalSpendings';
 
 export function Home() {
+  const [totalSpending, setTotalSpending] = useState<string>();
+
   return (
     <Grid container spacing={3}>
       {/* Chart */}
@@ -14,7 +19,7 @@ export function Home() {
             height: 240,
           }}
         >
-          {/* <Chart /> */}
+          <SpendingsChart onDataChange={(total) => setTotalSpending(total)} />
         </Paper>
       </Grid>
       {/* Recent Deposits */}
@@ -27,7 +32,7 @@ export function Home() {
             height: 240,
           }}
         >
-          {/* <Deposits /> */}
+          <TotalSpendings total={totalSpending ?? ''} />
         </Paper>
       </Grid>
       {/* Recent Transactions */}

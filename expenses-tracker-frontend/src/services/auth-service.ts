@@ -11,6 +11,7 @@ class AuthService {
   constructor() {
     this.http = new HttpService();
     // Set the refresh logic callback
+    // TODO: NOT WORKING, FIX
     this.http.setOnUnauthorizedCallback(this.refresh.bind(this));
   }
 

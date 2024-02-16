@@ -4,6 +4,7 @@ import {
   Get,
   Param,
   ParseUUIDPipe,
+  Patch,
   Post,
   Query,
 } from '@nestjs/common';
@@ -85,7 +86,7 @@ export class TransactionsController {
   }
 
   @ApiSaveTransaction(true)
-  @Post(':id')
+  @Patch(':id')
   async update(
     @Param('id', ParseUUIDPipe) id: string,
     @Body() dto: TransactionDto,

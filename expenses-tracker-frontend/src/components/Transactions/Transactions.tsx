@@ -11,43 +11,27 @@ import {
   TableBody,
   Typography,
   Button,
+  Box,
 } from '@mui/material';
 import { TransactionResponse } from 'shared/types';
-import { CurrencyEnum } from 'shared/enums/currency';
+import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
+import { useAsyncAction } from '../../hooks/useAsyncAction';
+import { TransactionForm } from '../../forms/TransactionForm';
+import { DividerWithText } from '../DividerWithText';
 import { displayAmountWithCurrency } from '../../lib/displayAmountWithCurrency';
+import { FileUpload } from '../FileUpload';
 
-// TODO: Remove mockTransactions, once there is a sufficient amount of real data
-const mockTransactions: Omit<TransactionResponse, 'owner'>[] = [
-  {
-    id: 'aaa',
-    merchantName: 'Fantastico',
-    merchantAddress: 'гр. София, ул. Любляна',
-    date: new Date(),
-    amount: '69.24',
-    currency: CurrencyEnum.BGN,
-  },
-  {
-    id: 'aba',
-    merchantName: 'Sexwell',
-    date: new Date(),
-    amount: '879,20',
-    currency: CurrencyEnum.BGN,
-  },
-  {
-    id: 'dada',
-    merchantName: 'Steam',
-    date: new Date(),
-    amount: '879,20',
-    currency: CurrencyEnum.EUR,
-  },
-];
-
-interface TransactionsProps {
-  onAddTransactionClick: () => void;
-}
-
-export function Transactions({ onAddTransactionClick }: TransactionsProps) {
+export function Transactions() {
   const user = useCurrentUser();
+
+  const [displayTransactionForm, setDisplayTransactionForm] = useState(false);
+
+  const { trigger: createTransaction } = useAsyncAction(async (data) => {
+    await transactionsService.createTransaction(data);
+    setDisplayTransactionForm(false);
+    reload();
+  });
 
   // TODO: Handle no user scenario
   if (!user) {
@@ -58,8 +42,9 @@ export function Transactions({ onAddTransactionClick }: TransactionsProps) {
     data: transactions,
     loading: transactionLoading,
     error: transactionsError,
+    reload,
   } = useAsync(async () => {
-    return await transactionsService.getAllByUserId(user.id);
+    return await transactionsService.getAllTransactions();
   }, [user]);
 
   if (transactionLoading) {
@@ -69,6 +54,39 @@ export function Transactions({ onAddTransactionClick }: TransactionsProps) {
   if (transactionsError) {
     return <p>ERROR!</p>;
   }
+
+  return (
+    <>
+      {displayTransactionForm ? (
+        <Box display={'flex'} flexDirection={'column'}>
+          <FileUpload />
+          <DividerWithText text={'or'} />
+          <TransactionForm
+            label="Add Transaction Manually"
+            onGoBack={() => setDisplayTransactionForm(false)}
+            onSubmit={(data) => createTransaction(data)}
+          />
+        </Box>
+      ) : (
+        <TransactionsDetails
+          transactions={transactions ?? []}
+          onAddTransactionClick={() => setDisplayTransactionForm(true)}
+        />
+      )}
+    </>
+  );
+}
+
+interface TransactionsDetailsProps {
+  transactions: TransactionResponse[];
+  onAddTransactionClick: () => void;
+}
+
+function TransactionsDetails({
+  transactions,
+  onAddTransactionClick,
+}: TransactionsDetailsProps) {
+  const navigate = useNavigate();
 
   return (
     <>
@@ -88,11 +106,19 @@ export function Transactions({ onAddTransactionClick }: TransactionsProps) {
           </TableRow>
         </TableHead>
         <TableBody>
-          {transactions &&
-            [...transactions, ...mockTransactions].map((transaction) => (
-              <TableRow key={transaction.id}>
+          {transactions.length > 0 ? (
+            transactions.map((transaction) => (
+              <TableRow
+                key={transaction.id}
+                hover
+                onClick={() => {
+                  navigate(`/transactions/${transaction.id}`, {
+                    state: { transaction },
+                  });
+                }}
+              >
                 <TableCell>
-                  {moment(transaction.date).format('DD MMMM, HH:mm')}
+                  {moment(transaction.date).format('DD MMMM yy, HH:mm')}
                 </TableCell>
                 <TableCell>{transaction.merchantName ?? 'N/A'}</TableCell>
                 <TableCell>{transaction.merchantAddress ?? 'N/A'}</TableCell>
@@ -103,7 +129,10 @@ export function Transactions({ onAddTransactionClick }: TransactionsProps) {
                   )}
                 </TableCell>
               </TableRow>
-            ))}
+            ))
+          ) : (
+            <Typography variant={'h6'}>No transactions</Typography>
+          )}
         </TableBody>
       </Table>
     </>

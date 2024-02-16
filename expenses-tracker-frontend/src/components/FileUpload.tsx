@@ -2,6 +2,7 @@ import { Button } from '@mui/material';
 import { DropzoneDialog } from 'material-ui-dropzone';
 import { useState } from 'react';
 import { useAsyncAction } from '../hooks/useAsyncAction';
+import { FileUploadRounded } from '@mui/icons-material';
 
 export function FileUpload() {
   const [open, setOpen] = useState(false);
@@ -30,11 +31,12 @@ export function FileUpload() {
         onClick={() => setOpen(true)}
         disabled={loading}
       >
+        <FileUploadRounded />
         {!loading ? 'Add Receipt' : 'Loading...'}
       </Button>
 
       <DropzoneDialog
-        // TODO: Limit files to 1?
+        filesLimit={1}
         acceptedFiles={['image/*']}
         cancelButtonText={'cancel'}
         submitButtonText={'submit'}

@@ -4,7 +4,7 @@ export interface TransactionResponse {
   id: string;
   merchantName?: string;
   merchantAddress?: string;
-  date: Date;
+  date?: Date;
   amount: string;
   currency: CurrencyEnum;
   description?: string;

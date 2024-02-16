@@ -13,6 +13,7 @@ export function Auth() {
   return (
     <GoogleLogin
       onSuccess={(credentialResponse) => {
+        console.log(credentialResponse.credential);
         authService.login(credentialResponse.credential ?? '');
       }}
       onError={() => {

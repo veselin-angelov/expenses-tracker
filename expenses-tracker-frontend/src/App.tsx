@@ -5,6 +5,7 @@ import { GoogleOAuthProvider } from '@react-oauth/google';
 import { config } from './config';
 import { PageLayout } from './layouts/PageLayout/PageLayout';
 import { PrivateOutlet } from './contexts/PrivateOutlet';
+import { Transaction } from './pages/Transaction';
 
 export function App() {
   return (
@@ -15,6 +16,7 @@ export function App() {
             <Routes>
               <Route path="/" element={<PrivateOutlet />}>
                 <Route path="/" element={<Home />} />
+                <Route path="/transactions/:id" element={<Transaction />} />
               </Route>
               <Route path="*" element={<Navigate to="/" />} />
             </Routes>

@@ -6,6 +6,7 @@ import {
   GroupedConditionsDto,
 } from '@app/shared/filter/dtos';
 import { TransformFilters } from '@app/shared/filter/decorators';
+import { Transform } from 'class-transformer';
 
 export class ListingQueryDto {
   @ApiProperty({
@@ -14,6 +15,7 @@ export class ListingQueryDto {
   @Max(300)
   @IsNumber()
   @IsOptional()
+  @Transform(({ value }) => parseInt(value, 10), { toClassOnly: true })
   public limit?: number;
 
   @ApiProperty({
@@ -21,6 +23,7 @@ export class ListingQueryDto {
   })
   @IsNumber()
   @IsOptional()
+  @Transform(({ value }) => parseInt(value, 10), { toClassOnly: true })
   public offset?: number;
 
   @ApiProperty({

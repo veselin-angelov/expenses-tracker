@@ -12,10 +12,11 @@ import {
   Typography,
   Button,
   Box,
+  Pagination,
 } from '@mui/material';
 import { TransactionResponse } from 'shared/types';
 import { useNavigate } from 'react-router-dom';
-import { useState } from 'react';
+import { ChangeEvent, useCallback, useState } from 'react';
 import { useAsyncAction } from '../../hooks/useAsyncAction';
 import { TransactionForm } from '../../forms/TransactionForm';
 import { DividerWithText } from '../DividerWithText';
@@ -38,20 +39,30 @@ export function Transactions() {
     throw new Error('Invalid Session');
   }
 
+  const [offset, setOffset] = useState(0);
+
   const {
-    data: transactions,
+    data,
     loading: transactionLoading,
     error: transactionsError,
     reload,
   } = useAsync(async () => {
-    return await transactionsService.getAllTransactions();
+    return await transactionsService.getAllTransactions({ offset });
   }, [user]);
+
+  const onOffsetChange = useCallback(
+    (offset: number) => {
+      setOffset(offset);
+      reload();
+    },
+    [setOffset, reload],
+  );
 
   if (transactionLoading) {
     return <p>Loading...</p>;
   }
 
-  if (transactionsError) {
+  if (transactionsError || !data) {
     return <p>ERROR!</p>;
   }
 
@@ -69,7 +80,10 @@ export function Transactions() {
         </Box>
       ) : (
         <TransactionsDetails
-          transactions={transactions ?? []}
+          pageCount={data.pageCount}
+          offset={offset}
+          onOffsetChange={onOffsetChange}
+          transactions={data.transactions ?? []}
           onAddTransactionClick={() => setDisplayTransactionForm(true)}
         />
       )}
@@ -78,15 +92,28 @@ export function Transactions() {
 }
 
 interface TransactionsDetailsProps {
+  pageCount: number;
+  offset: number;
+  onOffsetChange: (offset: number) => void;
   transactions: TransactionResponse[];
   onAddTransactionClick: () => void;
 }
 
 function TransactionsDetails({
+  pageCount,
+  offset,
+  onOffsetChange,
   transactions,
   onAddTransactionClick,
 }: TransactionsDetailsProps) {
   const navigate = useNavigate();
+
+  const handlePageChange = useCallback(
+    (_event: ChangeEvent<unknown>, value: number) => {
+      onOffsetChange(value - 1);
+    },
+    [onOffsetChange],
+  );
 
   return (
     <>
@@ -96,7 +123,7 @@ function TransactionsDetails({
           Add Transaction
         </Button>
       </div>
-      <Table size="small">
+      <Table size="small" sx={{ mt: 5, mb: 5 }}>
         <TableHead>
           <TableRow>
             <TableCell>Date</TableCell>
@@ -135,6 +162,12 @@ function TransactionsDetails({
           )}
         </TableBody>
       </Table>
+      <Pagination
+        count={pageCount}
+        page={offset + 1}
+        onChange={handlePageChange}
+        color="primary"
+      />
     </>
   );
 }

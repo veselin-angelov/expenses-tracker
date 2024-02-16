@@ -10,7 +10,7 @@ export function TotalSpendings({ total }: TotalSpendingsProps) {
     <Box alignSelf={'center'}>
       <Typography variant="h5">
         Spent a total of
-        <Typography variant="h4" color={theme.palette.primary.light}>
+        <Typography sx={{ fontSize: 35 }} color={theme.palette.primary.light}>
           {total}
         </Typography>
         in the selected period

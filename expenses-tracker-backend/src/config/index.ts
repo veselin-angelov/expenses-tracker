@@ -5,3 +5,4 @@ export * from './swagger';
 export * from './logger';
 export * from './jwt';
 export * from './aws-s3';
+export * from './ocr';

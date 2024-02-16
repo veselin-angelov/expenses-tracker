@@ -24,6 +24,12 @@
       ],
       "@app/package-json": [
         "package.json"
+      ],
+      "@app-libs/ocr": [
+        "libs/ocr/src"
+      ],
+      "@app-libs/ocr/*": [
+        "libs/ocr/src/*"
       ]
     }
   }

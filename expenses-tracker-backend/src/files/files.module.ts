@@ -30,7 +30,7 @@ const services = [
     useFactory: () => {
       return (): FileValidator[] | null => {
         return [
-          isValidSize(1e6),
+          isValidSize(5e6),
           isValidMimeType(
             ['image/jpeg', 'image/png'],
             'File must be of type .jpg/.jpeg or .png',

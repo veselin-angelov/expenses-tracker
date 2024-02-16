@@ -1,1 +1,1 @@
-export * from './currencyEnum';
+export * from './currency.enum';

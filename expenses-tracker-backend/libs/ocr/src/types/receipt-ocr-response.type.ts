@@ -1,0 +1,44 @@
+export type ReceiptOcrResponse = {
+  ocr_type: string;
+  request_id: string;
+  file_name: string;
+  request_received_on: number;
+  success: boolean;
+  image_width: number;
+  image_height: number;
+  image_rotation: number;
+  recognition_completed_on: number;
+  receipts: ReceiptOcr[];
+};
+
+export type ReceiptOcr = {
+  merchant_name: string;
+  merchant_address: any;
+  merchant_phone: any;
+  merchant_website: any;
+  merchant_tax_reg_no: any;
+  merchant_company_reg_no: any;
+  region: any;
+  mall: any;
+  country: string;
+  receipt_no: string;
+  date: string;
+  time: string;
+  currency: string;
+  total: number;
+  subtotal: any;
+  tax: any;
+  service_charge: any;
+  tip: any;
+  payment_method: any;
+  payment_details: any;
+  credit_card_type: any;
+  credit_card_number: any;
+  ocr_text: string;
+  ocr_confidence: number;
+  width: number;
+  height: number;
+  avg_char_width: number;
+  avg_line_height: number;
+  conf_amount: number;
+};

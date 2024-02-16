@@ -3,23 +3,19 @@ import { DropzoneDialog } from 'material-ui-dropzone';
 import { useState } from 'react';
 import { useAsyncAction } from '../hooks/useAsyncAction';
 import { FileUploadRounded } from '@mui/icons-material';
+import { filesService } from '../services/files-service';
+import { transactionsService } from '../services/transactions-service';
 
 export function FileUpload() {
   const [open, setOpen] = useState(false);
 
   const { trigger: uploadFile, loading } = useAsyncAction(
     async (files: File[]) => {
-      // TODO: send the file to BE instead, this request to the Asprise API is going to be handled there.
-      const formData = new FormData();
-      formData.append('api_key', 'TEST');
-      formData.append('recognizer', 'auto');
-      formData.append('file', files[0]);
+      const fileResponse = await filesService.uploadFile(files[0]);
 
-      const response = await fetch('https://ocr.asprise.com/api/v1/receipt', {
-        method: 'POST',
-        body: formData,
+      await transactionsService.createTransactionFromFile({
+        receipt: fileResponse.id,
       });
-      console.log(response.body);
     },
   );
 

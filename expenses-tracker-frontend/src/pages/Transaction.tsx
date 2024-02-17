@@ -1,44 +1,59 @@
-import { Box, Button, Paper, Typography } from '@mui/material';
-import { useLocation } from 'react-router-dom';
+import {
+  Box,
+  Button,
+  Container,
+  List,
+  ListItem,
+  ListItemText,
+  Paper,
+  Typography,
+} from '@mui/material';
+import { useParams } from 'react-router-dom';
 import { TransactionResponse } from 'shared/types';
 import { displayAmountWithCurrency } from '../lib/displayAmountWithCurrency';
 import { TransactionForm } from '../forms/TransactionForm';
 import { useState } from 'react';
 import { transactionsService } from '../services/transactions-service';
 import { useAsyncAction } from '../hooks/useAsyncAction';
-
-interface LocationState {
-  transaction: TransactionResponse;
-}
+import moment from 'moment';
+import { useAsync } from '../hooks/useAsync';
 
 export function Transaction() {
-  const location = useLocation();
-  const { transaction } = location.state as LocationState;
+  const { id: transactionId } = useParams();
 
-  const [displayTransaction, setDisplayTransaction] = useState(transaction);
+  const {
+    data: transaction,
+    loading: transactionLoading,
+    reload,
+  } = useAsync(
+    async () =>
+      await transactionsService.getTransactionById(transactionId ?? ''),
+    [],
+  );
 
   const [isEditFormOpen, setIsEditFormOpen] = useState(false);
 
   const { trigger: editTransaction } = useAsyncAction(async (data) => {
-    const transactionResponse = await transactionsService.editTransactionById(
-      transaction.id,
-      data,
-    );
+    await transactionsService.editTransactionById(transaction?.id ?? '', data);
     setIsEditFormOpen(false);
-    setDisplayTransaction(transactionResponse);
+    reload();
   });
+
+  if (transactionLoading || !transaction) {
+    return <>Loading...</>;
+  }
 
   return (
     <Paper>
       {!isEditFormOpen ? (
         <TransactionDetails
-          transaction={displayTransaction}
+          transaction={transaction}
           onEditClick={() => setIsEditFormOpen(true)}
         />
       ) : (
         <TransactionForm
           onGoBack={() => setIsEditFormOpen(false)}
-          transaction={displayTransaction}
+          transaction={transaction}
           onSubmit={(data) => editTransaction(data)}
         />
       )}
@@ -70,7 +85,33 @@ function TransactionDetails({
           Edit
         </Button>
       </Box>
-      <Typography variant="body1">{transaction.description}</Typography>
+      <Container>
+        <Typography variant="body1">{transaction.description}</Typography>
+        <List>
+          <ListItem>
+            <ListItemText
+              primary="Merchant"
+              secondary={transaction.merchantName ?? 'N/A'}
+            />
+          </ListItem>
+
+          <ListItem>
+            <ListItemText
+              primary="Merchant Address"
+              secondary={transaction.merchantAddress ?? 'N/A'}
+            />
+          </ListItem>
+
+          <ListItem>
+            <ListItemText
+              primary="Date"
+              secondary={
+                moment(transaction.date).format('DD MMMM yy, HH:mm') ?? 'N/A'
+              }
+            />
+          </ListItem>
+        </List>
+      </Container>
     </Box>
   );
 }

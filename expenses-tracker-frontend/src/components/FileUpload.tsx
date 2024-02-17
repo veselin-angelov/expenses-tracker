@@ -3,19 +3,20 @@ import { useState } from 'react';
 import { useAsyncAction } from '../hooks/useAsyncAction';
 import { FileUploadRounded } from '@mui/icons-material';
 import { filesService } from '../services/files-service';
-import { transactionsService } from '../services/transactions-service';
 import { DropzoneDialog } from 'react-mui-dropzone';
 
-export function FileUpload() {
+interface FileUploadProps {
+  onSuccess: (fileId: string) => void;
+}
+
+export function FileUpload({ onSuccess }: FileUploadProps) {
   const [open, setOpen] = useState(false);
 
   const { trigger: uploadFile, loading } = useAsyncAction(
     async (files: File[]) => {
       const fileResponse = await filesService.uploadFile(files[0]);
 
-      await transactionsService.createTransactionFromFile({
-        receipt: fileResponse.id,
-      });
+      onSuccess(fileResponse.id);
     },
   );
 

@@ -2,6 +2,7 @@ import classes from './Header.module.css';
 import { Typography } from '@mui/material';
 import { Auth } from '../Auth';
 import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 
 export function Header() {
   const [text, setText] = useState('Default Text');
@@ -23,9 +24,11 @@ export function Header() {
 
   return (
     <header className={classes.header}>
-      <div className={classes.container}>
-        <Typography variant="h1">{text}</Typography>
-      </div>
+      <Link to={'/'} style={{ textDecoration: 'none', color: 'white' }}>
+        <div className={classes.container}>
+          <Typography variant="h1">{text}</Typography>
+        </div>
+      </Link>
       <div className={classes.profile}>
         <Auth />
       </div>

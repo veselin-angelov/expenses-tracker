@@ -9,3 +9,8 @@
 .container {
   display: flex;
 }
+
+.headerLink {
+  text-decoration: 'none';
+  color: 'white';
+}

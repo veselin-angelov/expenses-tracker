@@ -30,7 +30,6 @@ export class SaveTransactionHandler
     transaction.setOwner(user);
 
     await this.em.persistAndFlush(transaction);
-
     return transaction;
   }
 

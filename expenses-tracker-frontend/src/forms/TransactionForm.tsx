@@ -73,7 +73,7 @@ export function TransactionForm({
             name="date"
             control={control}
             rules={{ required: false }}
-            render={({ field: { onChange, onBlur, value, ref } }) => (
+            render={({ field: { value, ref } }) => (
               <TextField
                 id="date"
                 label="Date and Time"
@@ -84,10 +84,9 @@ export function TransactionForm({
                 variant="outlined"
                 error={!!errors.date}
                 helperText={errors.date ? 'This field is required' : ''}
-                onChange={onChange}
-                onBlur={onBlur}
-                value={value || ''}
+                value={value}
                 inputRef={ref}
+                {...register('date')}
               />
             )}
           />
@@ -117,7 +116,7 @@ export function TransactionForm({
               labelId="currency-label"
               id="currency"
               label="Currency"
-              defaultValue=""
+              defaultValue={transaction?.currency ?? ''}
               {...register('currency', { required: true })}
               error={!!errors.currency}
             >

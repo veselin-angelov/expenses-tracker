@@ -25,6 +25,7 @@ import { FileUpload } from '../FileUpload';
 
 export function Transactions() {
   const user = useCurrentUser();
+  const navigate = useNavigate();
 
   const [displayTransactionForm, setDisplayTransactionForm] = useState(false);
 
@@ -58,7 +59,18 @@ export function Transactions() {
     [setOffset, reload],
   );
 
-  if (transactionLoading) {
+  const { trigger: createTransactionFromFile, loading: fileCreationLoading } =
+    useAsyncAction(async (fileId: string) => {
+      const transaction = await transactionsService.createTransactionFromFile({
+        receipt: fileId,
+      });
+
+      navigate(`/transactions/${transaction.id}`, {
+        state: { transaction },
+      });
+    });
+
+  if (transactionLoading || fileCreationLoading) {
     return <p>Loading...</p>;
   }
 
@@ -70,7 +82,7 @@ export function Transactions() {
     <>
       {displayTransactionForm ? (
         <Box display={'flex'} flexDirection={'column'}>
-          <FileUpload />
+          <FileUpload onSuccess={createTransactionFromFile} />
           <DividerWithText text={'or'} />
           <TransactionForm
             label="Add Transaction Manually"

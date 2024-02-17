@@ -28,6 +28,12 @@ class TransactionsService {
     };
   }
 
+  async getTransactionById(transactionId: string) {
+    return await this.http.get<TransactionResponse>(
+      `/transactions/${transactionId}`,
+    );
+  }
+
   async editTransactionById(
     transactionId: string,
     transaction: TransactionResponse,
@@ -49,11 +55,9 @@ class TransactionsService {
   }
 
   async createTransactionFromFile(transaction: { receipt: string }) {
-    const response = await this.http.post('/transactions/image', {
+    return await this.http.post<TransactionResponse>('/transactions/image', {
       body: transaction,
     });
-
-    return response;
   }
 
   // TODO: call the file upload endpoint with the file

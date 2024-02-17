@@ -48,7 +48,13 @@ export function Transactions() {
     error: transactionsError,
     reload,
   } = useAsync(async () => {
-    return await transactionsService.getAllTransactions({ offset });
+    // Ideally it wouldn't be a hard coded value
+    // and offset would be called currentPage or smn
+    // but I cannot be bothered right now
+    return await transactionsService.getAllTransactions({
+      limit: 15,
+      offset: offset * 15,
+    });
   }, [user]);
 
   const onOffsetChange = useCallback(

@@ -10,13 +10,13 @@ const descriptions = ['description1', 'description2', 'description3'];
 const currency = 'BGN';
 
 const start_date = moment('2024-01-01');
-const end_date = moment('2024-12-31');
+const end_date = moment('2024-02-17');
 
 for (let i = 0; i < 100; i++) {
-  const date = start_date.add(
-    Math.random() * (end_date - start_date),
-    'milliseconds',
-  );
+  const random = Math.random();
+  const diffTime = end_date.diff(start_date);
+  const randomDate = moment(start_date).add(random * diffTime, 'milliseconds');
+
   const query = `
     INSERT INTO public.transaction (
         id,
@@ -29,9 +29,9 @@ for (let i = 0; i < 100; i++) {
         owner_id
     ) VALUES (
         '${uuid.v4()}',
-        '${date.format()}',
+        '${randomDate.toISOString()}',
         '${merchant_names[Math.floor(Math.random() * merchant_names.length)]}',
-        '${date.format()}',
+        '${randomDate.toISOString()}',
         '${Math.floor(Math.random() * 1000 + 1)}',
         '${currency}',
         '${descriptions[Math.floor(Math.random() * descriptions.length)]}',

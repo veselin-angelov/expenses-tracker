@@ -8,5 +8,6 @@ export interface TransactionResponse {
   amount: string;
   currency: CurrencyEnum;
   description?: string;
-  owner: string;
+  owner: { id: string } | null;
+  receipt: { id: string } | null;
 }

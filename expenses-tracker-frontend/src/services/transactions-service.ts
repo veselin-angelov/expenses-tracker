@@ -41,7 +41,7 @@ class TransactionsService {
     return await this.http.patch<TransactionResponse>(
       `/transactions/${transactionId}`,
       {
-        body: transaction,
+        body: { ...transaction, receipt: transaction?.receipt?.id },
       },
     );
   }

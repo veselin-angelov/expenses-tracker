@@ -23,7 +23,7 @@ export class OcrService {
     fileMimeType: string;
   }): Promise<Receipt> {
     const formData = new FormData();
-    formData.append('recognizer', 'auto');
+    formData.append('recognizer', 'DE');
     formData.append('api_key', this.config.apiKey);
     formData.append('file', dataStream, {
       filename: fileName,

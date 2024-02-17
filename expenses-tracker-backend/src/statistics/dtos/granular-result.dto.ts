@@ -1,9 +1,11 @@
 export class GranularResultDto {
-  public constructor(period: string, total: number) {
+  public constructor(period: number, display: string, total: number) {
     this.period = period;
+    this.display = display;
     this.total = total;
   }
 
-  public period: string;
+  public period: number;
+  public display: string;
   public total: number;
 }

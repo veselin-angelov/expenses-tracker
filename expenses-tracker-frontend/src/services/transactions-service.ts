@@ -10,11 +10,22 @@ interface GetAllTransactionsReponse {
 class TransactionsService {
   private http = new HttpService();
 
-  async getAllTransactions() {
-    const response =
-      await this.http.get<GetAllTransactionsReponse>('/transactions');
+  async getAllTransactions({
+    limit = 15,
+    offset,
+  }: {
+    limit?: number;
+    offset: number;
+  }) {
+    const response = await this.http.get<GetAllTransactionsReponse>(
+      '/transactions',
+      { query: { limit: limit.toString(), offset: offset.toString() } },
+    );
 
-    return response.result;
+    return {
+      transactions: response.result,
+      pageCount: Math.ceil(response.count / limit),
+    };
   }
 
   async editTransactionById(

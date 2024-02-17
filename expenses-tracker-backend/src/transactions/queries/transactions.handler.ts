@@ -2,7 +2,7 @@ import { IQueryHandler, QueryHandler } from '@nestjs/cqrs';
 import { TransactionsQuery } from '@app/transactions/queries/transactions.query';
 import { TransactionRepository } from '@app/transactions/repositories';
 import { TransactionsResultWithCountDto } from '@app/transactions/dtos';
-import { FilterQuery } from '@mikro-orm/core';
+import { FilterQuery, QueryOrder } from '@mikro-orm/core';
 import { Transaction } from '@app/transactions/entities';
 import { FiltersQueryBuilderService } from '@app/shared/filter/services';
 
@@ -33,6 +33,7 @@ export class TransactionsHandler implements IQueryHandler<TransactionsQuery> {
       {
         limit: query.limit,
         offset: query.offset,
+        orderBy: { date: QueryOrder.DESC },
       },
     );
 

@@ -1,10 +1,10 @@
 import { Button } from '@mui/material';
-import { DropzoneDialog } from 'material-ui-dropzone';
 import { useState } from 'react';
 import { useAsyncAction } from '../hooks/useAsyncAction';
 import { FileUploadRounded } from '@mui/icons-material';
 import { filesService } from '../services/files-service';
 import { transactionsService } from '../services/transactions-service';
+import { DropzoneDialog } from 'react-mui-dropzone';
 
 export function FileUpload() {
   const [open, setOpen] = useState(false);

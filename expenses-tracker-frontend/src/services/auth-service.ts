@@ -1,3 +1,4 @@
+import { eventManager } from '../lib/event-manager';
 import { HttpService } from './http-service';
 import { tokenStorage } from './user-info-service';
 
@@ -10,9 +11,7 @@ class AuthService {
   private http: HttpService;
   constructor() {
     this.http = new HttpService();
-    // Set the refresh logic callback
-    // TODO: NOT WORKING, FIX
-    this.http.setOnUnauthorizedCallback(this.refresh.bind(this));
+    eventManager.subscribe('unauthorized', this.refresh.bind(this));
   }
 
   async login(googleToken: string) {

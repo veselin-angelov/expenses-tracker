@@ -1,8 +1,8 @@
 import { Button } from '@mui/material';
-import { DropzoneDialog } from 'material-ui-dropzone';
 import { useState } from 'react';
 import { useAsyncAction } from '../hooks/useAsyncAction';
 import { FileUploadRounded } from '@mui/icons-material';
+import { DropzoneDialog } from 'react-mui-dropzone';
 
 export function FileUpload() {
   const [open, setOpen] = useState(false);
@@ -15,11 +15,10 @@ export function FileUpload() {
       formData.append('recognizer', 'auto');
       formData.append('file', files[0]);
 
-      const response = await fetch('https://ocr.asprise.com/api/v1/receipt', {
+      await fetch('https://ocr.asprise.com/api/v1/receipt', {
         method: 'POST',
         body: formData,
       });
-      console.log(response.body);
     },
   );
 

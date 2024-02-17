@@ -34,7 +34,6 @@ class AuthService {
   }
 
   async refresh() {
-    console.log('INSIDE REFRESH');
     const refreshToken = tokenStorage.refreshToken;
     tokenStorage.removeAccessToken();
     const response = await this.http.post<LoginResponseToken>('/auth/refresh', {

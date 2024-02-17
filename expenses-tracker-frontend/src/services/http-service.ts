@@ -59,7 +59,6 @@ export class HttpService {
     if (!response.ok) {
       // TODO: Error handling, possibly shared errors between cliend & server
       if (response.status === 401 && tokenStorage.refreshToken) {
-        console.log('emitting unauthorized');
         eventManager.emit('unauthorized');
       }
       throw new Error('Internal server error');

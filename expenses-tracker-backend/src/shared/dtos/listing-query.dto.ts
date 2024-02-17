@@ -15,7 +15,9 @@ export class ListingQueryDto {
   @Max(300)
   @IsNumber()
   @IsOptional()
-  @Transform(({ value }) => parseInt(value, 10), { toClassOnly: true })
+  @Transform(({ value }) => (value ? Number(value) : undefined), {
+    toClassOnly: true,
+  })
   public limit?: number;
 
   @ApiProperty({
@@ -23,7 +25,9 @@ export class ListingQueryDto {
   })
   @IsNumber()
   @IsOptional()
-  @Transform(({ value }) => parseInt(value, 10), { toClassOnly: true })
+  @Transform(({ value }) => (value ? Number(value) : undefined), {
+    toClassOnly: true,
+  })
   public offset?: number;
 
   @ApiProperty({

@@ -11,6 +11,7 @@ export interface SpendingsResponse {
 
 export interface GranularResult {
   period: string;
+  display: string;
   total: string;
 }
 

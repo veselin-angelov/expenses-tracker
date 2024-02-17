@@ -66,6 +66,7 @@ export function SpendingsChart({ onDataChange }: SpendingsChartProps) {
         <LineChart
           dataset={data.results.map((_) => ({
             period: _.period,
+            label: _.display,
             total: Number(_.total),
           }))}
           margin={{

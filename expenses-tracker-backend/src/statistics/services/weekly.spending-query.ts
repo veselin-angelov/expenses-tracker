@@ -49,6 +49,7 @@ export class WeeklySpendingQuery implements ISpendingQuery {
       granularity: Granularity.DAY_OF_WEEK,
       granularResults: result.map((r) => ({
         period: r.dayOfWeek,
+        display: r.dayOfWeek,
         total: r.dailyTotal,
       })),
     };

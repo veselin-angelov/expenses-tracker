@@ -18,10 +18,17 @@ export class MonthlySpendingQuery implements ISpendingQuery {
     const result = await knex
       .with('weeklyTotals', (qb) => {
         qb.select({
-          weekRange: knex.raw(`CASE
+          weekOfMonth: knex.raw(`CASE
+                WHEN extract(DAY from date) <= 7 THEN 1
+                WHEN extract(DAY from date) <= 14 THEN 2
+                WHEN extract(DAY from date) <= 21 THEN 3
+                WHEN extract(DAY from date) <= 28 THEN 4
+                ELSE 5
+            END`),
+          displayValue: knex.raw(`CASE 
                 WHEN extract(DAY from date) <= 28 THEN
                     ((extract(DAY from date)::integer - 1) / 7) * 7 + 1 || '-' ||
-                    LEAST((extract(DAY from date)::integer - 1) + 7, 28)
+                    LEAST(((extract(DAY from date)::integer - 1) / 7) * 7 + 7, 28)
                 ELSE
                     '29-' ||
                     extract(DAY from (DATE_TRUNC('MONTH', date) + INTERVAL '1 MONTH - 1 day'))::text
@@ -29,22 +36,19 @@ export class MonthlySpendingQuery implements ISpendingQuery {
         })
           .sum({ weeklyTotal: 'amount' })
           .from(Transaction.name.toLowerCase())
-          .where({
-            owner_id: user.id,
-          })
+          .where({ owner_id: user.id })
           .andWhereRaw('EXTRACT(MONTH FROM date) = ?', [+dto.month!])
           .andWhereRaw('EXTRACT(YEAR FROM date) = ?', [+dto.year])
-          .groupBy('weekRange');
+          .groupBy('weekOfMonth', 'displayValue');
       })
       .select([
-        'weekRange',
+        'weekOfMonth',
+        'displayValue',
         'weeklyTotal',
-        {
-          monthlyTotal: knex.raw('sum("weeklyTotal") over ()'),
-        },
+        { monthlyTotal: knex.raw('sum("weeklyTotal") over ()') },
       ])
       .from('weeklyTotals')
-      .orderBy('weekRange');
+      .orderBy('weekOfMonth');
 
     return this.buildResults(result);
   }
@@ -55,7 +59,8 @@ export class MonthlySpendingQuery implements ISpendingQuery {
       total: result[0].monthlyTotal,
       granularity: Granularity.WEEK,
       granularResults: result.map((r) => ({
-        period: r.weekRange,
+        period: r.weekOfMonth,
+        display: r.displayValue,
         total: r.weeklyTotal,
       })),
     };

@@ -48,6 +48,14 @@ class TransactionsService {
     return response;
   }
 
+  async createTransactionFromFile(transaction: { receipt: string }) {
+    const response = await this.http.post('/transactions/image', {
+      body: transaction,
+    });
+
+    return response;
+  }
+
   // TODO: call the file upload endpoint with the file
   // async addReceipt(file: File) {
   //   const response = await this.http.post('/files', {

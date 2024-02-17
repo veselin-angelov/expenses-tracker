@@ -10,7 +10,7 @@ import {
   Validate,
   ValidateIf,
 } from 'class-validator';
-import { CurrencyEnum } from '@app/transactions/enums';
+import { Currency } from '@app/transactions/enums';
 import { ApiHideProperty, ApiProperty } from '@nestjs/swagger';
 import { FileExistsConstraint } from '@app/files/constraints';
 
@@ -39,12 +39,12 @@ export class TransactionDto {
   public amount?: string;
 
   @ApiProperty({
-    enum: CurrencyEnum,
+    enum: Currency,
   })
-  @IsEnum(CurrencyEnum)
+  @IsEnum(Currency)
   @IsNotEmpty()
   @ValidateIf((object, value) => !object.id || !!value)
-  public currency?: CurrencyEnum;
+  public currency?: Currency;
 
   @ApiProperty({
     description: 'The date of the transaction, if empty it will be set to now',

@@ -8,6 +8,7 @@ import {
   database,
   jwt,
   logger,
+  ocr,
 } from '@app/config';
 import { DatabaseModule } from '@app/shared/database/database.module';
 import { LoggerModule } from '@app/shared/logger/logger.module';
@@ -19,7 +20,7 @@ import { FilterModule } from '@app/shared/filter/filter.module';
   providers: [],
   imports: [
     ConfigModule.forRoot({
-      load: [database, app, logger, jwt, awsS3],
+      load: [database, app, logger, jwt, awsS3, ocr],
       envFilePath: `.env`,
     }),
     FilterModule,

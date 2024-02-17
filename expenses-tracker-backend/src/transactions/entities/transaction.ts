@@ -11,7 +11,7 @@ import { ApiProperty } from '@nestjs/swagger';
 import { CustomBaseEntity } from '@app/shared/entities';
 import { User } from '@app/users/entities';
 import { TransactionRepository } from '@app/transactions/repositories';
-import { CurrencyEnum } from '@app/transactions/enums';
+import { Currency } from '@app/transactions/enums';
 import { File } from '@app/files/entities';
 
 @Entity({
@@ -55,13 +55,13 @@ export class Transaction extends CustomBaseEntity {
 
   @ApiProperty({
     nullable: false,
-    enum: CurrencyEnum,
+    enum: Currency,
   })
   @Enum({
-    items: () => CurrencyEnum,
+    items: () => Currency,
     nullable: false,
   })
-  public currency: CurrencyEnum;
+  public currency: Currency;
 
   @ApiProperty({
     nullable: true,

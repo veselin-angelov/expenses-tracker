@@ -2,12 +2,22 @@ import { EntityManager } from '@mikro-orm/postgresql';
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { Transaction } from '@app/transactions/entities';
 import { CreateTransactionFromImageCommand } from '@app/transactions/commands/create-transaction-from-image.command';
+import { FileRepository } from '@app/files/repositories';
+import { OcrService } from '@app-libs/ocr';
+import { ObjectsService } from '@lab08/nestjs-s3';
+import type { Readable } from 'stream';
+import { Currency } from '@app/transactions/enums';
 
 @CommandHandler(CreateTransactionFromImageCommand)
 export class CreateTransactionFromImageHandler
   implements ICommandHandler<CreateTransactionFromImageCommand>
 {
-  public constructor(private readonly em: EntityManager) {}
+  public constructor(
+    private readonly em: EntityManager,
+    private readonly fileRepository: FileRepository,
+    private readonly ocrService: OcrService,
+    private readonly objectsService: ObjectsService,
+  ) {}
 
   public async execute({
     dto,
@@ -15,13 +25,36 @@ export class CreateTransactionFromImageHandler
   }: CreateTransactionFromImageCommand): Promise<Transaction> {
     const transaction = new Transaction();
 
-    // TODO: Call OCR service to extract data from image
-
-    transaction.assign(dto, {
-      em: this.em,
+    const file = await this.fileRepository.findOneOrFail({
+      id: dto.receipt,
+      createdBy: user,
     });
 
-    transaction.setOwner(user);
+    const fileObj = await this.objectsService.getObject(
+      file.bucket,
+      file.remote,
+    );
+
+    const receipt = await this.ocrService.processReceiptImage({
+      dataStream: fileObj.Body as Readable,
+      fileName: file.fileName,
+      fileMimeType: file.mimeType,
+    });
+
+    transaction.assign(
+      {
+        receipt: file,
+        owner: user,
+        date: receipt.date,
+        amount: String(receipt.total),
+        merchantName: receipt.merchant?.name,
+        merchantAddress: receipt.merchant?.address,
+        currency: receipt.currency as Currency,
+      },
+      {
+        em: this.em,
+      },
+    );
 
     await this.em.persistAndFlush(transaction);
 

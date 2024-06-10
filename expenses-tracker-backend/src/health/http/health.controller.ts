@@ -8,8 +8,8 @@ import {
 @Controller('health')
 export class HealthController {
   constructor(
-    private health: HealthCheckService,
-    private mikroOrmIndicator: MikroOrmHealthIndicator,
+    private readonly health: HealthCheckService,
+    private readonly mikroOrmIndicator: MikroOrmHealthIndicator,
   ) {}
 
   @Get()

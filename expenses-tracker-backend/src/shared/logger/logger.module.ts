@@ -52,6 +52,7 @@ const sharedProviders: FactoryProvider[] = [
                 winston.format.logstash(),
               ),
               filename: 'app-logstash-%DATE%.json',
+              level: 'verbose',
             }),
             new winston.transports.Console({
               format: winston.format.combine(
@@ -59,6 +60,7 @@ const sharedProviders: FactoryProvider[] = [
                 utilities.format.nestLike(name),
               ),
               silent: loggerConfig.silent,
+              level: 'verbose',
             }),
           ],
         };

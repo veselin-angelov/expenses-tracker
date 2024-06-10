@@ -5,6 +5,7 @@ import { AuthModule } from '@app/auth/auth.module';
 import { TransactionModule } from '@app/transactions/transactions.module';
 import { FilesModule } from '@app/files/files.module';
 import { StatisticsModule } from '@app/statistics/statistics.module';
+import { HealthModule } from '@app/health/health.module';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { StatisticsModule } from '@app/statistics/statistics.module';
     TransactionModule,
     FilesModule,
     StatisticsModule,
+    HealthModule,
   ],
   controllers: [],
   providers: [],

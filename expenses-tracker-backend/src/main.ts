@@ -4,6 +4,7 @@ import { createSwaggerConfig } from '@app/config';
 import { LOGGER } from '@app/shared/logger/constants';
 import { AppHttpExceptionFilter } from '@app/app-http-exception.filter';
 import { useContainer } from 'class-validator';
+import { json } from 'express';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
@@ -15,6 +16,7 @@ async function bootstrap() {
   app.useGlobalFilters(new AppHttpExceptionFilter(logger, httpAdapter));
 
   app.enableShutdownHooks();
+  app.use(json({ limit: '50mb' }));
   app.enableCors({
     origin: true,
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',

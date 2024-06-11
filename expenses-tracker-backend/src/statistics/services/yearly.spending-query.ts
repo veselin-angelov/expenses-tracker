@@ -59,7 +59,16 @@ export class YearlySpendingQuery implements ISpendingQuery {
     return this.buildResults(result);
   }
 
-  private buildResults(result: any[]): SpendingResultDto {
+  private buildResults(result: any[] | null): SpendingResultDto {
+    if (!result || result.length === 0) {
+      return {
+        period: Period.YEARLY,
+        total: 0,
+        granularity: Granularity.MONTH,
+        granularResults: [],
+      };
+    }
+
     return {
       period: Period.YEARLY,
       total: result[0]?.yearlyTotal,

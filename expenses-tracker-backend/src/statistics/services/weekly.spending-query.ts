@@ -42,7 +42,16 @@ export class WeeklySpendingQuery implements ISpendingQuery {
     return this.buildResults(result);
   }
 
-  private buildResults(result: any[]): SpendingResultDto {
+  private buildResults(result: any[] | null): SpendingResultDto {
+    if (!result || result.length === 0) {
+      return {
+        period: Period.WEEKLY,
+        total: 0,
+        granularity: Granularity.DAY_OF_WEEK,
+        granularResults: [],
+      };
+    }
+
     return {
       period: Period.WEEKLY,
       total: result[0].weeklyTotal,

@@ -53,7 +53,16 @@ export class MonthlySpendingQuery implements ISpendingQuery {
     return this.buildResults(result);
   }
 
-  private buildResults(result: any[]): SpendingResultDto {
+  private buildResults(result: any[] | null): SpendingResultDto {
+    if (!result || result.length === 0) {
+      return {
+        period: Period.MONTHLY,
+        total: 0,
+        granularity: Granularity.WEEK,
+        granularResults: [],
+      };
+    }
+
     return {
       period: Period.MONTHLY,
       total: result[0].monthlyTotal,

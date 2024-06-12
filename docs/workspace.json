@@ -1,0 +1,308 @@
+{
+  "configuration" : { },
+  "description" : "Description",
+  "documentation" : { },
+  "id" : 1,
+  "lastModifiedDate" : "2024-06-11T22:49:40Z",
+  "model" : {
+    "deploymentNodes" : [ {
+      "children" : [ {
+        "children" : [ {
+          "containerInstances" : [ {
+            "containerId" : "2",
+            "deploymentGroups" : [ "Default" ],
+            "environment" : "Production",
+            "id" : "12",
+            "instanceId" : 1,
+            "properties" : {
+              "structurizr.dsl.identifier" : "beapplicationinstance"
+            },
+            "relationships" : [ {
+              "description" : "Writes data to",
+              "destinationId" : "17",
+              "id" : "20",
+              "properties" : {
+                "structurizr.dsl.identifier" : "1173ae4f-b1f9-4aae-8fe0-4634daed4886"
+              },
+              "sourceId" : "12",
+              "tags" : "Relationship",
+              "technology" : "HTTPS"
+            }, {
+              "description" : "Writes data to",
+              "destinationId" : "9",
+              "id" : "21",
+              "properties" : {
+                "structurizr.dsl.identifier" : "c7de1d23-11b8-4612-8fe3-e4f70ecaec41"
+              },
+              "sourceId" : "12",
+              "tags" : "Relationship",
+              "technology" : "HTTPS"
+            } ],
+            "tags" : "Container Instance,Instance"
+          } ],
+          "environment" : "Production",
+          "id" : "11",
+          "instances" : "1",
+          "name" : "Amazon EC2",
+          "properties" : {
+            "structurizr.dsl.identifier" : "68d7d27c-eb98-4486-930f-eaa4272afc9b"
+          },
+          "tags" : "Element,Deployment Node,Amazon Web Services - EC2"
+        }, {
+          "containerInstances" : [ {
+            "containerId" : "3",
+            "deploymentGroups" : [ "Default" ],
+            "environment" : "Production",
+            "id" : "14",
+            "instanceId" : 1,
+            "properties" : {
+              "structurizr.dsl.identifier" : "feapplicationinstance"
+            },
+            "relationships" : [ {
+              "description" : "Communicates with",
+              "destinationId" : "10",
+              "id" : "18",
+              "properties" : {
+                "structurizr.dsl.identifier" : "702ce610-3bc9-4ca0-896e-b42c96ab5e2c"
+              },
+              "sourceId" : "14",
+              "tags" : "Relationship",
+              "technology" : "HTTPS"
+            } ],
+            "tags" : "Container Instance,Instance"
+          } ],
+          "environment" : "Production",
+          "id" : "13",
+          "instances" : "1",
+          "name" : "Front End Node",
+          "properties" : {
+            "structurizr.dsl.identifier" : "c1ff49fc-5048-4e74-892b-4ad2d73980b3"
+          },
+          "tags" : "Element,Deployment Node,Amazon Web Services - Simple Storage Service S3"
+        }, {
+          "children" : [ {
+            "environment" : "Production",
+            "id" : "16",
+            "infrastructureNodes" : [ {
+              "description" : "Relational database schema",
+              "environment" : "Production",
+              "id" : "17",
+              "name" : "Database",
+              "properties" : {
+                "structurizr.dsl.identifier" : "databaseinfrastructure"
+              },
+              "tags" : "Element,Infrastructure Node,Database"
+            } ],
+            "instances" : "1",
+            "name" : "PostgreSQL",
+            "properties" : {
+              "structurizr.dsl.identifier" : "f65d166b-51fb-4bfc-b6df-aa14156f1816"
+            },
+            "tags" : "Element,Deployment Node,Amazon Web Services - RDS PostgreSQL instance"
+          } ],
+          "environment" : "Production",
+          "id" : "15",
+          "instances" : "1",
+          "name" : "Amazon RDS",
+          "properties" : {
+            "structurizr.dsl.identifier" : "12908aae-41dd-479e-b036-931153cd9055"
+          },
+          "tags" : "Element,Deployment Node,Amazon Web Services - RDS"
+        } ],
+        "environment" : "Production",
+        "id" : "8",
+        "infrastructureNodes" : [ {
+          "description" : "Cloud object storage.",
+          "environment" : "Production",
+          "id" : "9",
+          "name" : "S3",
+          "properties" : {
+            "structurizr.dsl.identifier" : "s3infrastructure"
+          },
+          "tags" : "Element,Infrastructure Node,Amazon Web Services - Simple Storage Service S3"
+        }, {
+          "description" : "Automatically distributes incoming application traffic.",
+          "environment" : "Production",
+          "id" : "10",
+          "name" : "Elastic Load Balancer",
+          "properties" : {
+            "structurizr.dsl.identifier" : "elb"
+          },
+          "relationships" : [ {
+            "description" : "Forwards requests to",
+            "destinationId" : "12",
+            "id" : "19",
+            "properties" : {
+              "structurizr.dsl.identifier" : "38da536f-cedb-48db-aa3a-f68481364efb"
+            },
+            "sourceId" : "10",
+            "tags" : "Relationship",
+            "technology" : "HTTPS"
+          } ],
+          "tags" : "Element,Infrastructure Node,Amazon Web Services - Elastic Load Balancing"
+        } ],
+        "instances" : "1",
+        "name" : "EU-CENTRAL-1",
+        "properties" : {
+          "structurizr.dsl.identifier" : "d50e83b3-5327-4167-8e8c-251a219ac315"
+        },
+        "tags" : "Element,Deployment Node,Amazon Web Services - Region"
+      } ],
+      "environment" : "Production",
+      "id" : "7",
+      "instances" : "1",
+      "name" : "Amazon Web Services",
+      "properties" : {
+        "structurizr.dsl.identifier" : "eeb15c61-f0ff-48e4-9a09-81b769bf8745"
+      },
+      "tags" : "Element,Deployment Node,Amazon Web Services - Cloud"
+    } ],
+    "softwareSystems" : [ {
+      "containers" : [ {
+        "description" : "Expenses tracking",
+        "documentation" : { },
+        "id" : "2",
+        "name" : "BackEnd Application (API)",
+        "properties" : {
+          "structurizr.dsl.identifier" : "beapplication"
+        },
+        "tags" : "Element,Container,Application",
+        "technology" : "NodeJS with NestJS"
+      }, {
+        "description" : "Expenses traking",
+        "documentation" : { },
+        "id" : "3",
+        "name" : "FrontEnd Application",
+        "properties" : {
+          "structurizr.dsl.identifier" : "feapplication"
+        },
+        "tags" : "Element,Container,Application",
+        "technology" : "React SPA Application"
+      }, {
+        "components" : [ {
+          "description" : "Relational database schema",
+          "documentation" : { },
+          "id" : "5",
+          "name" : "Database",
+          "properties" : {
+            "structurizr.dsl.identifier" : "database"
+          },
+          "tags" : "Element,Component,Database"
+        }, {
+          "description" : "Cloud object storage",
+          "documentation" : { },
+          "id" : "6",
+          "name" : "S3",
+          "properties" : {
+            "structurizr.dsl.identifier" : "s3"
+          },
+          "tags" : "Element,Component,Database"
+        } ],
+        "description" : "Stores information about expenses.",
+        "documentation" : { },
+        "id" : "4",
+        "name" : "Storage",
+        "properties" : {
+          "structurizr.dsl.identifier" : "storage"
+        },
+        "tags" : "Element,Container,Database",
+        "technology" : "PostgreSQL"
+      } ],
+      "documentation" : { },
+      "id" : "1",
+      "location" : "Unspecified",
+      "name" : "Expenses Tracker",
+      "properties" : {
+        "structurizr.dsl.identifier" : "expensestracker"
+      },
+      "tags" : "Element,Software System"
+    } ]
+  },
+  "name" : "Expenses Tracker",
+  "properties" : {
+    "structurizr.dsl" : "d29ya3NwYWNlICJFeHBlbnNlcyBUcmFja2VyIiB7CgogICAgbW9kZWwgewogICAgICAgIEV4cGVuc2VzVHJhY2tlciA9IHNvZnR3YXJlU3lzdGVtICJFeHBlbnNlcyBUcmFja2VyIiB7CiAgICAgICAgICAgIEJFQXBwbGljYXRpb24gPSBjb250YWluZXIgIkJhY2tFbmQgQXBwbGljYXRpb24gKEFQSSkiICJFeHBlbnNlcyB0cmFja2luZyIgIk5vZGVKUyB3aXRoIE5lc3RKUyIgewogICAgICAgICAgICAgICAgdGFncyAiQXBwbGljYXRpb24iCiAgICAgICAgICAgIH0KCiAgICAgICAgICAgIEZFQXBwbGljYXRpb24gPSBjb250YWluZXIgIkZyb250RW5kIEFwcGxpY2F0aW9uIiAiRXhwZW5zZXMgdHJha2luZyIgIlJlYWN0IFNQQSBBcHBsaWNhdGlvbiIgewogICAgICAgICAgICAgICAgdGFncyAiQXBwbGljYXRpb24iCiAgICAgICAgICAgIH0KCiAgICAgICAgICAgIFN0b3JhZ2UgPSBjb250YWluZXIgIlN0b3JhZ2UiICJTdG9yZXMgaW5mb3JtYXRpb24gYWJvdXQgZXhwZW5zZXMuIiAiUG9zdGdyZVNRTCIgewogICAgICAgICAgICAgICAgdGFncyAiRGF0YWJhc2UiCgogICAgICAgICAgICAgICAgZGF0YWJhc2UgPSBjb21wb25lbnQgIkRhdGFiYXNlIiAiUmVsYXRpb25hbCBkYXRhYmFzZSBzY2hlbWEiIHsKICAgICAgICAgICAgICAgICAgICB0YWdzICJEYXRhYmFzZSIKICAgICAgICAgICAgICAgIH0KCiAgICAgICAgICAgICAgICBzMyA9IGNvbXBvbmVudCAiUzMiICJDbG91ZCBvYmplY3Qgc3RvcmFnZSIgewogICAgICAgICAgICAgICAgICAgIHRhZ3MgIkRhdGFiYXNlIgogICAgICAgICAgICAgICAgfQogICAgICAgICAgICB9CiAgICAgICAgfQoKICAgICAgICBkZXYgPSBkZXBsb3ltZW50RW52aXJvbm1lbnQgIlByb2R1Y3Rpb24iIHsKICAgICAgICAgICAgZGVwbG95bWVudE5vZGUgIkFtYXpvbiBXZWIgU2VydmljZXMiIHsKICAgICAgICAgICAgICAgIHRhZ3MgIkFtYXpvbiBXZWIgU2VydmljZXMgLSBDbG91ZCIKCiAgICAgICAgICAgICAgICBkZXBsb3ltZW50Tm9kZSAiRVUtQ0VOVFJBTC0xIiB7CiAgICAgICAgICAgICAgICAgICAgdGFncyAiQW1hem9uIFdlYiBTZXJ2aWNlcyAtIFJlZ2lvbiIKCiAgICAgICAgICAgICAgICAgICAgczNJbmZyYXN0cnVjdHVyZSA9IGluZnJhc3RydWN0dXJlTm9kZSAiUzMiIHsKICAgICAgICAgICAgICAgICAgICAgICAgZGVzY3JpcHRpb24gIkNsb3VkIG9iamVjdCBzdG9yYWdlLiIKICAgICAgICAgICAgICAgICAgICAgICAgdGFncyAiQW1hem9uIFdlYiBTZXJ2aWNlcyAtIFNpbXBsZSBTdG9yYWdlIFNlcnZpY2UgUzMiCiAgICAgICAgICAgICAgICAgICAgfQoKICAgICAgICAgICAgICAgICAgICBlbGIgPSBpbmZyYXN0cnVjdHVyZU5vZGUgIkVsYXN0aWMgTG9hZCBCYWxhbmNlciIgewogICAgICAgICAgICAgICAgICAgICAgICBkZXNjcmlwdGlvbiAiQXV0b21hdGljYWxseSBkaXN0cmlidXRlcyBpbmNvbWluZyBhcHBsaWNhdGlvbiB0cmFmZmljLiIKICAgICAgICAgICAgICAgICAgICAgICAgdGFncyAiQW1hem9uIFdlYiBTZXJ2aWNlcyAtIEVsYXN0aWMgTG9hZCBCYWxhbmNpbmciCiAgICAgICAgICAgICAgICAgICAgfQoKICAgICAgICAgICAgICAgICAgICBkZXBsb3ltZW50Tm9kZSAiQW1hem9uIEVDMiIgewogICAgICAgICAgICAgICAgICAgICAgICB0YWdzICJBbWF6b24gV2ViIFNlcnZpY2VzIC0gRUMyIgoKICAgICAgICAgICAgICAgICAgICAgICAgQkVBcHBsaWNhdGlvbkluc3RhbmNlID0gY29udGFpbmVySW5zdGFuY2UgQkVBcHBsaWNhdGlvbiB7CiAgICAgICAgICAgICAgICAgICAgICAgICAgICB0YWdzICJJbnN0YW5jZSIKICAgICAgICAgICAgICAgICAgICAgICAgfQogICAgICAgICAgICAgICAgICAgIH0KCiAgICAgICAgICAgICAgICAgICAgZGVwbG95bWVudE5vZGUgIkZyb250IEVuZCBOb2RlIiB7CiAgICAgICAgICAgICAgICAgICAgICAgIHRhZ3MgIkFtYXpvbiBXZWIgU2VydmljZXMgLSBTaW1wbGUgU3RvcmFnZSBTZXJ2aWNlIFMzIgoKICAgICAgICAgICAgICAgICAgICAgICAgRkVBcHBsaWNhdGlvbkluc3RhbmNlID0gY29udGFpbmVySW5zdGFuY2UgRkVBcHBsaWNhdGlvbiB7CiAgICAgICAgICAgICAgICAgICAgICAgICAgICB0YWdzICJJbnN0YW5jZSIKICAgICAgICAgICAgICAgICAgICAgICAgfQogICAgICAgICAgICAgICAgICAgIH0KCiAgICAgICAgICAgICAgICAgICAgZGVwbG95bWVudE5vZGUgIkFtYXpvbiBSRFMiIHsKICAgICAgICAgICAgICAgICAgICAgICAgdGFncyAiQW1hem9uIFdlYiBTZXJ2aWNlcyAtIFJEUyIKCiAgICAgICAgICAgICAgICAgICAgICAgIGRlcGxveW1lbnROb2RlICJQb3N0Z3JlU1FMIiB7CiAgICAgICAgICAgICAgICAgICAgICAgICAgICB0YWdzICJBbWF6b24gV2ViIFNlcnZpY2VzIC0gUkRTIFBvc3RncmVTUUwgaW5zdGFuY2UiCgogICAgICAgICAgICAgICAgICAgICAgICAgICAgZGF0YWJhc2VJbmZyYXN0cnVjdHVyZSA9IGluZnJhc3RydWN0dXJlTm9kZSAiRGF0YWJhc2UiIHsKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBkZXNjcmlwdGlvbiAiUmVsYXRpb25hbCBkYXRhYmFzZSBzY2hlbWEiCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgdGFncyAiRGF0YWJhc2UiCiAgICAgICAgICAgICAgICAgICAgICAgICAgICB9CiAgICAgICAgICAgICAgICAgICAgICAgIH0KICAgICAgICAgICAgICAgICAgICB9CiAgICAgICAgICAgICAgICB9CiAgICAgICAgICAgIH0KCiAgICAgICAgICAgIEZFQXBwbGljYXRpb25JbnN0YW5jZSAtPiBlbGIgIkNvbW11bmljYXRlcyB3aXRoIiAiSFRUUFMiCgogICAgICAgICAgICBlbGIgLT4gQkVBcHBsaWNhdGlvbkluc3RhbmNlICJGb3J3YXJkcyByZXF1ZXN0cyB0byIgIkhUVFBTIgoKICAgICAgICAgICAgQkVBcHBsaWNhdGlvbkluc3RhbmNlIC0+IGRhdGFiYXNlSW5mcmFzdHJ1Y3R1cmUgIldyaXRlcyBkYXRhIHRvIiAiSFRUUFMiCiAgICAgICAgICAgIEJFQXBwbGljYXRpb25JbnN0YW5jZSAtPiBzM0luZnJhc3RydWN0dXJlICJXcml0ZXMgZGF0YSB0byIgIkhUVFBTIgogICAgICAgIH0KICAgIH0KCiAgICB2aWV3cyB7CiAgICAgICAgZGVwbG95bWVudCBFeHBlbnNlc1RyYWNrZXIgIlByb2R1Y3Rpb24iICJBbWF6b25XZWJTZXJ2aWNlc0RlcGxveW1lbnQiIHsKICAgICAgICAgICAgaW5jbHVkZSAqCiAgICAgICAgfQoKICAgICAgICBzdHlsZXMgewogICAgICAgICAgICBlbGVtZW50ICJJbnN0YW5jZSIgewogICAgICAgICAgICAgICAgY29sb3IgYmxhY2sKICAgICAgICAgICAgICAgIGJhY2tncm91bmQgd2hpdGUKICAgICAgICAgICAgfQoKICAgICAgICAgICAgZWxlbWVudCAiRGF0YWJhc2UiIHsKICAgICAgICAgICAgICAgIHNoYXBlIGN5bGluZGVyCiAgICAgICAgICAgIH0KICAgICAgICB9CgogICAgICAgIHRoZW1lcyBkZWZhdWx0IGh0dHBzOi8vc3RhdGljLnN0cnVjdHVyaXpyLmNvbS90aGVtZXMvYW1hem9uLXdlYi1zZXJ2aWNlcy0yMDIwLjA0LjMwL3RoZW1lLmpzb24KICAgIH0KfQo="
+  },
+  "views" : {
+    "configuration" : {
+      "branding" : { },
+      "lastSavedView" : "AmazonWebServicesDeployment",
+      "styles" : {
+        "elements" : [ {
+          "background" : "#ffffff",
+          "color" : "#000000",
+          "tag" : "Instance"
+        }, {
+          "shape" : "Cylinder",
+          "tag" : "Database"
+        } ]
+      },
+      "terminology" : { },
+      "themes" : [ "https://static.structurizr.com/themes/default/theme.json", "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/theme.json" ]
+    },
+    "deploymentViews" : [ {
+      "dimensions" : {
+        "height" : 3325,
+        "width" : 2287
+      },
+      "elements" : [ {
+        "id" : "7",
+        "x" : 525,
+        "y" : 525
+      }, {
+        "id" : "8",
+        "x" : 525,
+        "y" : 525
+      }, {
+        "id" : "9",
+        "x" : 1404,
+        "y" : 2383
+      }, {
+        "id" : "10",
+        "x" : 970,
+        "y" : 1137
+      }, {
+        "id" : "11",
+        "x" : 525,
+        "y" : 525
+      }, {
+        "id" : "12",
+        "x" : 970,
+        "y" : 1737
+      }, {
+        "id" : "13",
+        "x" : 525,
+        "y" : 525
+      }, {
+        "id" : "14",
+        "x" : 970,
+        "y" : 537
+      }, {
+        "id" : "15",
+        "x" : 525,
+        "y" : 525
+      }, {
+        "id" : "16",
+        "x" : 525,
+        "y" : 525
+      }, {
+        "id" : "17",
+        "x" : 641,
+        "y" : 2383
+      } ],
+      "environment" : "Production",
+      "key" : "AmazonWebServicesDeployment",
+      "order" : 1,
+      "paperSize" : "A4_Portrait",
+      "relationships" : [ {
+        "id" : "18"
+      }, {
+        "id" : "19"
+      }, {
+        "id" : "20"
+      }, {
+        "id" : "21"
+      } ],
+      "softwareSystemId" : "1"
+    } ]
+  }
+}

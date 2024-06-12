@@ -3,7 +3,7 @@ import { GoogleLoginService, JwtService } from '@app/auth/services';
 import { User } from '@app/users/entities';
 import { UserRepository } from '@app/users/repositories';
 import { EntityManager } from '@mikro-orm/postgresql';
-import * as argon from 'argon2';
+import * as bcrypt from 'bcrypt';
 import { LoginCommand } from '@app/auth/commands/login.command';
 
 @CommandHandler(LoginCommand)
@@ -33,7 +33,7 @@ export class LoginHandler implements ICommandHandler<LoginCommand> {
       name,
     });
 
-    user.refreshToken = await argon.hash(tokens.refreshToken);
+    user.refreshToken = await bcrypt.hash(tokens.refreshToken, 10);
     await this.em.persistAndFlush(user);
 
     return tokens;

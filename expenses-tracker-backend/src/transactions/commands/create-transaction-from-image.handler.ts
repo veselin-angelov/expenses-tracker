@@ -7,6 +7,7 @@ import { OcrService } from '@app-libs/ocr';
 import { ObjectsService } from '@lab08/nestjs-s3';
 import type { Readable } from 'stream';
 import { Currency } from '@app/transactions/enums';
+import { RuntimeException } from '@nestjs/core/errors/exceptions';
 
 @CommandHandler(CreateTransactionFromImageCommand)
 export class CreateTransactionFromImageHandler
@@ -41,11 +42,15 @@ export class CreateTransactionFromImageHandler
       fileMimeType: file.mimeType,
     });
 
+    if (!receipt) {
+      throw new RuntimeException('Failed to process receipt image');
+    }
+
     transaction.assign(
       {
         receipt: file,
         owner: user,
-        date: receipt.date,
+        date: receipt.date ?? new Date(),
         amount: String(receipt.total),
         merchantName: receipt.merchant?.name,
         merchantAddress: receipt.merchant?.address,

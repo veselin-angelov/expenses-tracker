@@ -6,7 +6,7 @@ import { Request } from 'express';
 import { UserRepository } from '@app/users/repositories';
 import { User } from '@app/users/entities';
 import { JWT_CONFIG_KEY, JwtConfig } from '@app/config';
-import * as argon from 'argon2';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class RefreshTokenStrategy extends PassportStrategy(
@@ -44,9 +44,9 @@ export class RefreshTokenStrategy extends PassportStrategy(
       throw new ForbiddenException('Access denied');
     }
 
-    const tokensMatch = await argon.verify(
-      user.refreshToken,
+    const tokensMatch = await bcrypt.compare(
       plainRefreshToken,
+      user.refreshToken,
     );
 
     if (!tokensMatch) {

@@ -1,9 +1,9 @@
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { UserRepository } from '@app/users/repositories';
 import { EntityManager } from '@mikro-orm/core';
-import * as argon from 'argon2';
 import { RefreshCommand } from '@app/auth/commands/refresh.command';
 import { JwtService } from '@app/auth/services';
+import * as bcrypt from 'bcrypt';
 
 @CommandHandler(RefreshCommand)
 export class RefreshHandler implements ICommandHandler<RefreshCommand> {
@@ -21,7 +21,7 @@ export class RefreshHandler implements ICommandHandler<RefreshCommand> {
       id: user.id,
     });
 
-    user.refreshToken = await argon.hash(tokens.refreshToken);
+    user.refreshToken = await bcrypt.hash(tokens.refreshToken, 10);
 
     await this.em.persistAndFlush(user);
 

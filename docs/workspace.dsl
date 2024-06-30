@@ -30,6 +30,16 @@ workspace "Expenses Tracker" {
                 deploymentNode "EU-CENTRAL-1" {
                     tags "Amazon Web Services - Region"
 
+                    route53 = infrastructureNode "Route 53" {
+                        description "Highly available and scalable cloud DNS service."
+                        tags "Amazon Web Services - Route 53"
+                    }
+
+                    cloudFront = infrastructureNode "CloudFront" {
+                        description "Content delivery network (CDN)."
+                        tags "Amazon Web Services - CloudFront"
+                    }
+
                     s3Infrastructure = infrastructureNode "S3" {
                         description "Cloud object storage."
                         tags "Amazon Web Services - Simple Storage Service S3"
@@ -71,6 +81,10 @@ workspace "Expenses Tracker" {
                 }
             }
 
+            route53 -> elb "Forwards requests to" "HTTPS"
+            route53 -> cloudFront "Forwards requests to" "HTTPS"
+
+            cloudFront -> FEApplicationInstance "Forwards requests to" "HTTPS"
             FEApplicationInstance -> elb "Communicates with" "HTTPS"
 
             elb -> BEApplicationInstance "Forwards requests to" "HTTPS"

@@ -2,6 +2,7 @@ import {
   Cascade,
   Collection,
   Entity,
+  Enum,
   Hidden,
   OneToMany,
   Property,
@@ -10,6 +11,7 @@ import { ApiHideProperty, ApiProperty } from '@nestjs/swagger';
 import { UserRepository } from '@app/users/repositories';
 import { CustomBaseEntity } from '@app/shared/entities';
 import { Transaction } from '@app/transactions/entities';
+import { AuthType } from '@app/shared/enums/auth-type.enum';
 
 @Entity({
   repository: () => UserRepository,
@@ -42,6 +44,12 @@ export class User extends CustomBaseEntity {
   })
   public active: boolean = true;
 
+  @Enum(() => AuthType)
+  authType: AuthType;
+
+  @Property({ nullable: true })
+  password?: string;
+
   @ApiHideProperty()
   @OneToMany({
     entity: () => Transaction,
@@ -50,8 +58,9 @@ export class User extends CustomBaseEntity {
   })
   public transactions = new Collection<Transaction>(this);
 
-  constructor(email: string) {
+  constructor(email: string, authType: AuthType) {
     super();
     this.email = email;
+    this.authType = authType;
   }
 }

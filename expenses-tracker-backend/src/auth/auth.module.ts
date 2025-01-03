@@ -14,10 +14,16 @@ import {
   LogoutHandler,
   RefreshHandler,
 } from '@app/auth/commands';
+import { EmailPasswordLoginHandler } from './commands/email-password-login.handler';
 
 const controllers = [AuthController];
 
-const commandHandlers = [LoginHandler, LogoutHandler, RefreshHandler];
+const commandHandlers = [
+  LoginHandler,
+  LogoutHandler,
+  RefreshHandler,
+  EmailPasswordLoginHandler,
+];
 
 const services = [GoogleLoginService, JwtService];
 

@@ -14,6 +14,7 @@ import {
   ApiRefreshToken,
   InjectUser,
 } from '@app/auth/decorators';
+import { EmailPasswordLoginCommand } from '../commands/email-password-login.command';
 
 @ApiTags('Auth')
 @Controller('auth')
@@ -36,5 +37,13 @@ export class AuthController {
   @Post('logout')
   async logout(@InjectUser() user: User): Promise<MessageResponseDto> {
     return await this.commandBus.execute(new LogoutCommand(user));
+  }
+
+  @ApiLogin()
+  @Post('email-password-login')
+  async emailPasswordLogin(@Body() body: { email: string; password: string }) {
+    return await this.commandBus.execute(
+      new EmailPasswordLoginCommand(body.email, body.password),
+    );
   }
 }

@@ -5,6 +5,8 @@ import { UserRepository } from '@app/users/repositories';
 import { EntityManager } from '@mikro-orm/postgresql';
 import * as bcrypt from 'bcrypt';
 import { LoginCommand } from '@app/auth/commands/login.command';
+import { AuthType } from '@app/shared/enums/auth-type.enum';
+import { UnauthorizedException } from '@nestjs/common';
 
 @CommandHandler(LoginCommand)
 export class LoginHandler implements ICommandHandler<LoginCommand> {
@@ -23,7 +25,11 @@ export class LoginHandler implements ICommandHandler<LoginCommand> {
     let user = await this.userRepository.findOne({ email });
 
     if (!user) {
-      user = new User(email);
+      user = new User(email, AuthType.GOOGLE);
+    } else if (user.authType !== AuthType.GOOGLE) {
+      throw new UnauthorizedException(
+        'Account exists with different auth method',
+      );
     }
 
     const tokens = this.jwtService.create({

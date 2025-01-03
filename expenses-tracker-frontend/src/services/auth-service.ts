@@ -22,6 +22,17 @@ class AuthService {
     tokenStorage.setRefreshToken(result.refreshToken);
   }
 
+  async emailPasswordLogin(email: string, password: string) {
+    const result = await this.http.post<LoginResponseToken>(
+      '/auth/email-password-login',
+      {
+        body: { email, password },
+      },
+    );
+    tokenStorage.setAccessToken(result.accessToken);
+    tokenStorage.setRefreshToken(result.refreshToken);
+  }
+
   async logout(userId: string) {
     await this.http.post<{ message: string }>('/auth/logout', {
       body: {
